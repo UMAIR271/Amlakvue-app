@@ -1,18 +1,30 @@
 <template>
-  <input type="text" v-model="q1_1d" />
+  <h1>hello</h1>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { mapMutations } from "vuex";
+
 export default {
-  data() {
-    return {
-      q1_1d: "",
-      allData: [
-        { id: 1, name: "John" },
-        { id: 2, name: "Jane" },
-      ],
-    };
+  computed: {
+    ...mapState({
+      data: (state) => state.data,
+    }),
+  },
+  methods: {
+    ...mapMutations(["updateData"]),
+    submitData() {
+      const data = {};
+      data.temp = 32;
+      console.log("this.id");
+      this.updateData(data);
+      console.log("hello.id");
+      console.log(this.$store.state.data.temp);
+    },
+  },
+  mounted() {
+    this.submitData();
   },
 };
 </script>
-a

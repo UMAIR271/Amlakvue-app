@@ -23,43 +23,41 @@ export function function2() {
   element4.style.display = "block";
 }
 
-// function function3() {
+export function function3() {
+  document.getElementById("3").style.display = "none";
+  document.getElementById("4").style.display = "flex";
+  document.getElementById("8").style.display = "none";
 
-//     document.getElementById("3").style.display='none';
-//     document.getElementById("4").style.display='flex';
-//     document.getElementById("8").style.display='none';
+  document.getElementById("b1").style.display = "none";
+  document.getElementById("b2").style.display = "block";
+}
 
-//     document.getElementById("b1").style.display='none';
-//     document.getElementById("b2").style.display='block';
-//   }
+export function function4() {
+  document.getElementById("4").style.display = "none";
+  document.getElementById("3").style.display = "flex";
+  document.getElementById("8").style.display = "flex";
 
-//   function function4() {
-//     document.getElementById("4").style.display='none';
-//     document.getElementById("3").style.display='flex';
-//     document.getElementById("8").style.display='flex';
+  document.getElementById("b1").style.display = "block";
+  document.getElementById("b2").style.display = "none";
+}
 
-//     document.getElementById("b1").style.display='block';
-//     document.getElementById("b2").style.display='none';
-
-//   }
-
-// function function5() {
-//     document.getElementById("5").style.display='none';
-//     document.getElementById("6").style.display='block';
-//     document.getElementById("7").style.display='flex';
-// }
-// function function6() {
-//   document.getElementById("6").style.display='none';
-//     document.getElementById("5").style.display='block';
-//     document.getElementById("7").style.display='none';
-// }
-// function function7() {
-//   document.getElementById("villa").style.height='100%';
-//   document.getElementById("style2").style.display='block';
-//   document.getElementById("style1").style.display='none';
-// }
-// function function8() {
-//   document.getElementById("villa").style.height='70px';
-//   document.getElementById("style2").style.display='none';
-//   document.getElementById("style1").style.display='block';
-// }
+export function function5() {
+  document.getElementById("5").style.display = "none";
+  document.getElementById("6").style.display = "block";
+  document.getElementById("7").style.display = "flex";
+}
+export function function6() {
+  document.getElementById("6").style.display = "none";
+  document.getElementById("5").style.display = "block";
+  document.getElementById("7").style.display = "none";
+}
+export function function7() {
+  document.getElementById("villa").style.height = "100%";
+  document.getElementById("style2").style.display = "block";
+  document.getElementById("style1").style.display = "none";
+}
+export function function8() {
+  document.getElementById("villa").style.height = "70px";
+  document.getElementById("style2").style.display = "none";
+  document.getElementById("style1").style.display = "block";
+}

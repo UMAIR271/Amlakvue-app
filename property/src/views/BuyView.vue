@@ -114,68 +114,83 @@
           ></span
         >
 
-        <form>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Question 1:</label
-            >
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Answer:</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label"
-              >Question 2:</label
-            >
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label"
-              >Answer:</label
-            >
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-            />
-          </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">{{
+            allquestion[0]
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ans0"
+            name="a1"
+            aria-describedby="emailHelp"
+            v-model="ans0"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">{{
+            allquestion[1]
+          }}</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ans1"
+            name="a2"
+            v-model="ans1"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">{{
+            allquestion[2]
+          }}</label
+          ><br />
+          <input type="radio" id="ans2" value="1" name="a3" v-model="ans2" />
+          <label for="html"> 1 </label><br />
+          <input type="radio" id="ans2" value="2" name="a3" v-model="ans2" />
+          <label for="css"> 2 </label><br />
+          <input type="radio" id="ans2" v-model="ans2" name="a3" value="3" />
+          <label for="css"> 3 </label><br />
+          <input type="radio" id="ans2" v-model="ans2" name="a3" value="4" />
+          <label for="css"> 4 </label><br />
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">{{
+            allquestion[3]
+          }}</label
+          ><br />
+          <input
+            type="radio"
+            id="ans3"
+            v-model="ans3"
+            name="a4"
+            value="Single Family"
+          />
+          <label for="html">Single Family</label><br />
+          <input
+            type="radio"
+            id="ans3"
+            v-model="ans3"
+            name="a4"
+            value="Bachelors"
+          />
+          <label for="css">Bachelors</label><br />
+        </div>
 
-          <div style="margin-bottom: 10px">
-            <p style="margin: 0">Question 3:</p>
+        <div style="margin-bottom: 10px">
+          <p style="margin: 0">{{ allquestion[4] }}</p>
 
-            <input type="radio" id="html" name="fav_language" value="HTML" />
-            <label for="html">Answer 1</label><br />
-            <input type="radio" id="css" name="fav_language" value="CSS" />
-            <label for="css">Answer 2</label><br />
-
-            <input
-              type="radio"
-              id="javascript"
-              name="fav_language"
-              value="JavaScript"
-            />
-            <label for="javascript">Answer 3</label>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+          <input type="radio" name="a5" id="ans4" v-model="ans4" value="Yes" />
+          <label for="html"> Yes </label><br />
+          <input type="radio" id="ans4" name="a5" v-model="ans4" value="No" />
+          <label for="css"> No </label><br />
+        </div>
+        <button
+          type="submit"
+          @click="attach_answer_to_listing()"
+          class="btn btn-primary"
+        >
+          Submit
+        </button>
       </div>
       <div class="row-full" id="background" @click="closeNav()"></div>
     </div>
@@ -215,7 +230,7 @@
         </div>
       </div>
 
-      <div id="villa" class="villas">
+      <!-- <div id="villa" class="villas">
         <div style="width: 80%">
           <div
             style="
@@ -338,7 +353,7 @@
             show less &nbsp;
           </p>
         </div>
-      </div>
+      </div> -->
       <!-- card section starts -->
       <div style="display: flex; justify-content: space-between">
         <div class="cards-section">
@@ -352,7 +367,7 @@
                     data-bs-touch="true"
                     data-bs-interval="false"
                   >
-                    <div class="carousel-inner">
+                    <div class="carousel-inner" @click="getlistingid(value.id)">
                       <div class="carousel-item active">
                         <img
                           v-bind:src="value.cover_image"
@@ -403,7 +418,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="content" @click="getlistingid(value.id)">
+                <div class="content">
                   <div style="margin-left: 20px">
                     <p style="font-size: 13px; color: #7d8183; margin: 0">
                       Appartment
@@ -413,7 +428,11 @@
                       <div style="margin-right: 10px">
                         <label class="add-fav1">
                           <input type="checkbox" />
-                          <i class="icon-heart"> </i>
+                          <i
+                            class="icon-heart"
+                            @click="addToFavourite(value.id)"
+                          >
+                          </i>
                         </label>
                       </div>
                     </div>
@@ -464,10 +483,18 @@
                       Listed two days ago
                     </p>
                   </div>
-                  <div>
+                  <div v-if="status">
                     <label class="add-fav">
                       <input class="input1" type="checkbox" />
-                      <i @click="showQuestion()" class="logo_botton"
+                      <i @click="showQuestion(value.id)" class="logo_botton"
+                        >chat</i
+                      >
+                    </label>
+                  </div>
+                  <div v-else>
+                    <label class="add-fav">
+                      <input class="input1" type="checkbox" />
+                      <i @click="showQuestion(value.id)" class="logo_botton"
                         >Interested</i
                       >
                     </label>
@@ -548,7 +575,11 @@
                       <div style="margin-right: 10px">
                         <label class="add-fav1">
                           <input type="checkbox" />
-                          <i class="icon-heart"> </i>
+                          <i
+                            class="icon-heart"
+                            @click="addToFavourite(value.id)"
+                          >
+                          </i>
                         </label>
                       </div>
                     </div>
@@ -735,7 +766,7 @@
       </div>
       <div>
         <a href="#"
-          ><img src="../assets/Images/adds_image1.png" style="width: 100%"
+          ><img src="../assets/Images/last_img.png" style="width: 100%"
         /></a>
       </div>
     </div>
@@ -758,14 +789,32 @@ export default {
   },
   data() {
     return {
+      q1_id: 6,
+      q2_id: 7,
+      q3_id: 8,
+      q4_id: 11,
+      q5_id: 12,
+      ans0: "",
+      ans1: "",
+      ans2: "",
+      ans3: "",
+      ans4: "",
+      ownerid: "",
       allData: [],
+      allquestion: [],
+      listingQestion: [],
+      submit_question: [],
       currentPage: 1,
+      listingid: "",
+      id: "",
+      status: "",
     };
   },
   created() {
     onMounted(() => {
       console.log(this.$store.state.data);
       this.getAllData();
+      this.getQuestion();
     });
   },
 
@@ -828,6 +877,31 @@ export default {
         console.error(error);
       }
     },
+    async addToFavourite(id) {
+      const token = localStorage.getItem("token");
+      console.log(id);
+      try {
+        const formData = {
+          listing: id,
+          status: "True",
+        };
+        const config = {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "multipart/form-data",
+            Authorization: "Bearer " + token,
+          },
+        };
+        const response = await axios.post(
+          "http://18.177.139.152/favourite/listing/",
+          formData,
+          config
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getAllData() {
       let response = await this.getDataFromAPI(this.currentPage);
       let next = response.data.next;
@@ -841,18 +915,103 @@ export default {
         console.log(this.allData);
       }
     },
-    showQuestion() {
-      console.log("tuuseff");
+    async showQuestion(id) {
+      console.log("questions");
+      console.log("this.id", id);
+      let user_id = localStorage.getItem("user_id");
+      console.log(user_id);
+      const response = await axios.get(
+        "http://18.177.139.152/list/get/" + id + "/",
+        {
+          params: {
+            user_id,
+          },
+        }
+      );
+      this.ownerid = response.data.user_id;
+      this.listingid = response.data.id;
+      console.log(response.data.id, "getlisting");
+      for (let obj of response.data.attached_question) {
+        for (let question of this.listingQestion) {
+          if (obj["question_id"] == question["id"]) {
+            this.allquestion.push(question["question_text"]);
+          }
+        }
+      }
+      console.log(this.allquestion);
+
       document.getElementById("open_form").style.display = "block";
       document.getElementById("background").style.display = "block";
       document.documentElement.style.overflow = "hidden";
       document.body.scroll = "no";
+    },
+    async getQuestion() {
+      try {
+        const response = await axios.get(
+          "http://18.177.139.152/questionair/basic/question/"
+        );
+        console.log(response.data.Sales_Listings);
+        for (let question of response.data.Sales_Listings) {
+          console.log(question, "love");
+        }
+        this.listingQestion.push(...response.data.Sales_Listings);
+        this.allData = [...this.allData, ...response.data.Sales_Listings];
+      } catch (error) {
+        console.log(error);
+      }
     },
     closeNav() {
       document.getElementById("open_form").style.display = "none";
       document.getElementById("background").style.display = "none";
       document.documentElement.style.overflow = "scroll";
       document.body.scroll = "yes";
+    },
+    async attach_answer_to_listing() {
+      try {
+        const token = localStorage.getItem("token");
+        const user_id = localStorage.getItem("user_id");
+        console.log(user_id);
+        console.log("Bearer" + " " + token);
+        this.submit_question.push(
+          { id: this.q1_id, ans: this.ans0 },
+          { id: this.q2_id, ans: this.ans1 },
+          { id: this.q3_id, ans: this.ans2 },
+          { id: this.q4_id, ans: this.ans3 },
+          { id: this.q5_id, ans: this.ans4 }
+        );
+        const config = {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+        const postData = {
+          question: this.submit_question,
+          listing: this.listingid,
+          owner_id: this.ownerid,
+          user_id: user_id,
+          future_ans: "True",
+        };
+
+        console.log(postData);
+        axios
+          .post(
+            "http://18.177.139.152/questionair/interested/",
+            postData,
+            config
+          )
+          .then((response) => {
+            console.log(response);
+            this.closeNav();
+            this.status = true;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     },
     getlistingid(id) {
       console.log("hellooooooo");

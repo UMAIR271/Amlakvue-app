@@ -19,6 +19,12 @@ const routes = [
         component: () => import("@/views/PropertyListView.vue"),
       },
       {
+        name: "request",
+        path: "/request",
+        props: true,
+        component: () => import("@/views/requestView.vue"),
+      },
+      {
         name: "PropertyListBuy",
         path: "/propertiesBuy",
         props: true,

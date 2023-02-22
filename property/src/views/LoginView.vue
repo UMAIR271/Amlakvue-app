@@ -181,7 +181,7 @@ export default {
           // this.$ls.set("id", user_id);
 
           localStorage.setItem("token", token);
-          localStorage.setItem("id", user_id);
+          localStorage.setItem("user_id", user_id);
           const toPath = this.$route.query.to || "/";
           this.$router.push(toPath);
         })

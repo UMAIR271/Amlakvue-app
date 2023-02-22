@@ -15,38 +15,13 @@
         <li class="nav1">
           <router-link to="/addlisting">Add Your Listing</router-link>
         </li>
-        <li><router-link to="/properties">New Projects</router-link></li>
+        <li><router-link to="/request">Request</router-link></li>
         <li><router-link to="/favouriteListing">Favourite</router-link></li>
         <li><router-link to="/notifications">Notifications</router-link></li>
 
         <li class="nav1">
           <router-link to="/chat">Chat</router-link>
         </li>
-        <div class="list">
-          <li>
-            <a href="#" class="ab"
-              >Property Prices <i class="arrow down"></i
-            ></a>
-          </li>
-          <div class="dropdown-content">
-            <a href="#">House Prices</a>
-            <a href="#">Rent Vs Buy Calculator</a>
-            <a href="#">Mo'asher:Dubai Price Index</a>
-          </div>
-        </div>
-        <div class="list">
-          <li>
-            <a href="#" class="ab">explore <i class="arrow down"></i></a>
-          </li>
-          <div class="dropdown-content">
-            <a href="#">Building Reviews</a>
-            <a href="#">Community Guides</a>
-            <a href="#">Property Blogs</a>
-            <a href="#">Renter's Guide</a>
-            <a href="#">Buyer's Guide</a>
-            <a href="#">Mortgages</a>
-          </div>
-        </div>
       </ul>
     </nav>
 

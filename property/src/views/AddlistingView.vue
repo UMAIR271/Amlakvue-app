@@ -880,8 +880,10 @@ export default {
           .post("http://18.177.139.152/list/post/", formData, config)
           .then((response) => {
             console.log(response.data.listing_id);
+            let current_listing_id = response.data.listing_id;
+            console.log("current_listing_id", current_listing_id);
             const data = {};
-            data.listing_id = response.data.listing_id;
+            data.listing_id = current_listing_id;
             this.updateData(data);
             if (this.Purpose === "Rent") {
               this.$router.push("/rentQuestionair");

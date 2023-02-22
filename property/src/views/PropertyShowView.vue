@@ -428,7 +428,7 @@
                     margin-top: 5px;
                   "
                 >
-                  780,000 AED
+                  {{ listingdata.property_pricing }}AED
                 </h4>
               </div>
               <div class="buttons344">
@@ -621,241 +621,68 @@
 
         <a href="#" style="text-decoration: none"></a>
         <div class="back1">
-          <div class="phone22">
-            <img
-              style="width: 100%"
-              src="	https://www.propertyfinder.ae/property/987c0536c2e…ff/260/185/MODE/497f3d/8714439-08323o.webp?ctr=ae"
-            />
-            <p
-              style="
-                font-size: 15px;
-                color: #7d8183;
-                line-height: normal;
-                text-transform: uppercase;
-                margin: 0;
-                margin-left: 15px;
-              "
-            >
-              Appartment
-            </p>
-            <h3
-              style="
-                font-size: 18px;
-                color: #403b45;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              759,000 AED
-            </h3>
-            <p
-              style="
-                font-size: 15px;
-                color: #403b45;
-                font-family: sans-serif;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              Luma21,Jumeirah Village Circle, Dubai.
-            </p>
-            <p
-              style="
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-                padding-bottom: 15px;
-              "
-            >
-              <i class="fa fa-bed" style="font-size: 20px">&nbsp;1 |</i>
-              <i class="fa fa-bath" style="font-size: 22px; color: #3f3b44"
-                >&nbsp; 2|</i
+          <div class="phone22" v-for="(value, key) in rent" :key="key">
+            <a href="">
+              <img
+                v-bind:src="value.cover_image"
+                style="width: 100%; height: 300px"
+              />
+              <p
+                style="
+                  font-size: 15px;
+                  color: #7d8183;
+                  line-height: normal;
+                  text-transform: uppercase;
+                  margin: 0;
+                  margin-left: 15px;
+                "
               >
-              <i
-                class="fa fa-area-chart"
-                style="font-size: 20px; color: #403b45"
-              ></i
-              >&nbsp; 761 Sqft
-            </p>
-          </div>
-          <div class="phone22">
-            <img
-              style="width: 100%"
-              src="	https://www.propertyfinder.ae/property/987c0536c2e…ff/260/185/MODE/497f3d/8714439-08323o.webp?ctr=ae"
-            />
-            <p
-              style="
-                font-size: 15px;
-                color: #7d8183;
-                line-height: normal;
-                text-transform: uppercase;
-                margin: 0;
-                margin-left: 15px;
-              "
-            >
-              Appartment
-            </p>
-            <h3
-              style="
-                font-size: 18px;
-                color: #403b45;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              759,000 AED
-            </h3>
-            <p
-              style="
-                font-size: 15px;
-                color: #403b45;
-                font-family: sans-serif;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              Luma21,Jumeirah Village Circle, Dubai.
-            </p>
-            <p
-              style="
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-                padding-bottom: 15px;
-              "
-            >
-              <i class="fa fa-bed" style="font-size: 20px">&nbsp;1 |</i>
-              <i class="fa fa-bath" style="font-size: 22px; color: #3f3b44"
-                >&nbsp; 2|</i
+                Appartment
+              </p>
+              <h3
+                style="
+                  font-size: 18px;
+                  color: #403b45;
+                  margin: 0;
+                  margin-left: 15px;
+                  margin-top: 10px;
+                "
               >
-              <i
-                class="fa fa-area-chart"
-                style="font-size: 20px; color: #403b45"
-              ></i
-              >&nbsp; 761 Sqft
-            </p>
-          </div>
-          <div class="phone22">
-            <img
-              style="width: 100%"
-              src="	https://www.propertyfinder.ae/property/987c0536c2e…ff/260/185/MODE/497f3d/8714439-08323o.webp?ctr=ae"
-            />
-            <p
-              style="
-                font-size: 15px;
-                color: #7d8183;
-                line-height: normal;
-                text-transform: uppercase;
-                margin: 0;
-                margin-left: 15px;
-              "
-            >
-              Appartment
-            </p>
-            <h3
-              style="
-                font-size: 18px;
-                color: #403b45;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              759,000 AED
-            </h3>
-            <p
-              style="
-                font-size: 15px;
-                color: #403b45;
-                font-family: sans-serif;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              Luma21,Jumeirah Village Circle, Dubai.
-            </p>
-            <p
-              style="
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-                padding-bottom: 15px;
-              "
-            >
-              <i class="fa fa-bed" style="font-size: 20px">&nbsp;1 |</i>
-              <i class="fa fa-bath" style="font-size: 22px; color: #3f3b44"
-                >&nbsp; 2|</i
+                {{ value.property_pricing }} AED
+              </h3>
+              <p
+                style="
+                  font-size: 15px;
+                  color: #403b45;
+                  font-family: sans-serif;
+                  margin: 0;
+                  margin-left: 15px;
+                  margin-top: 10px;
+                "
               >
-              <i
-                class="fa fa-area-chart"
-                style="font-size: 20px; color: #403b45"
-              ></i
-              >&nbsp; 761 Sqft
-            </p>
-          </div>
-          <div class="phone22">
-            <img
-              style="width: 100%"
-              src="	https://www.propertyfinder.ae/property/987c0536c2e…ff/260/185/MODE/497f3d/8714439-08323o.webp?ctr=ae"
-            />
-            <p
-              style="
-                font-size: 15px;
-                color: #7d8183;
-                line-height: normal;
-                text-transform: uppercase;
-                margin: 0;
-                margin-left: 15px;
-              "
-            >
-              Appartment
-            </p>
-            <h3
-              style="
-                font-size: 18px;
-                color: #403b45;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              759,000 AED
-            </h3>
-            <p
-              style="
-                font-size: 15px;
-                color: #403b45;
-                font-family: sans-serif;
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-              "
-            >
-              Luma21,Jumeirah Village Circle, Dubai.
-            </p>
-            <p
-              style="
-                margin: 0;
-                margin-left: 15px;
-                margin-top: 10px;
-                padding-bottom: 15px;
-              "
-            >
-              <i class="fa fa-bed" style="font-size: 20px">&nbsp;1 |</i>
-              <i class="fa fa-bath" style="font-size: 22px; color: #3f3b44"
-                >&nbsp; 2|</i
+                Luma21,Jumeirah Village Circle, Dubai.
+              </p>
+              <p
+                style="
+                  margin: 0;
+                  margin-left: 15px;
+                  margin-top: 10px;
+                  padding-bottom: 15px;
+                "
               >
-              <i
-                class="fa fa-area-chart"
-                style="font-size: 20px; color: #403b45"
-              ></i
-              >&nbsp; 761 Sqft
-            </p>
+                <i class="fa fa-bed" style="font-size: 20px"
+                  >&nbsp;{{ value.Bedrooms }}|</i
+                >
+                <i class="fa fa-bath" style="font-size: 22px; color: #3f3b44"
+                  >&nbsp; {{ value.Batrooms }}|</i
+                >
+                <i
+                  class="fa fa-area-chart"
+                  style="font-size: 20px; color: #403b45"
+                ></i
+                >&nbsp; {{ value.size }} Sqft
+              </p>
+            </a>
           </div>
         </div>
       </div>
@@ -878,6 +705,7 @@ export default {
   data() {
     return {
       listingdata: "",
+      rent: [],
       propertyType: [],
       propertyimage: {},
       currentSlide: 0,
@@ -887,6 +715,7 @@ export default {
     onMounted(() => {
       console.log(this.$store.state.data);
       this.getlistingid();
+      this.RentData();
     });
   },
 
@@ -948,6 +777,25 @@ export default {
 
       // const check = "http://18.177.139.152/list/get/" + listingid ,;
       // console.log(check);
+    },
+    async RentData() {
+      try {
+        const response = await axios.get(
+          "http://18.177.139.152/list/filter/?check_Purpose_Type=Rent"
+        );
+        console.log(response.data.results);
+        this.rent = response.data.results;
+        this.nextPage = response.data.next;
+        try {
+          const response1 = await axios.get(this.nextPage);
+          this.rent = [...response.data.results, ...response1.data.results];
+          console.log(this.rent, "rent data");
+        } catch (error) {
+          console.error(error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     Intrested() {
       this.$router.push({
@@ -1540,6 +1388,7 @@ p {
   border: 2px solid #9ce0ea;
 }
 .images_slider_view_listing {
+  height: 580px;
   border-radius: 25px;
   border: 2px solid #9ce0ea;
 }

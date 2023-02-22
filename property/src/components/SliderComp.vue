@@ -200,7 +200,6 @@ export default {
         try {
           const response1 = await axios.get(this.nextPage);
           this.sell = [...response.data.results, ...response1.data.results];
-          console.log(this.rentnext);
         } catch (error) {
           console.error(error);
         }

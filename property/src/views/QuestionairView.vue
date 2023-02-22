@@ -29,7 +29,7 @@
                   name="q1"
                   id="q1_r1"
                   placeholder="Answer"
-                  v-model="quertion1"
+                  v-model="question1"
                   aria-describedby="basic-addon1"
                 />
               </div>
@@ -56,7 +56,7 @@
                   class="form-control"
                   name="q2"
                   id="q2_r2"
-                  v-model="quertion2"
+                  v-model="question2"
                   placeholder="Answer"
                   aria-describedby="basic-addon1"
                 />
@@ -85,7 +85,7 @@
                   name="q3"
                   id="q3_r3"
                   value="1"
-                  v-model="quertion3"
+                  v-model="question3"
                 />
                 <label class="form-check-label" for="q1_r1"> 1 </label>
               </div>
@@ -97,7 +97,7 @@
                   name="q3"
                   id="q3_r3"
                   value="2"
-                  v-model="quertion3"
+                  v-model="question3"
                 />
                 <label class="form-check-label" for="q1_r2"> 2 </label>
               </div>
@@ -109,7 +109,7 @@
                   name="q3"
                   id="q3_r3"
                   value="3"
-                  v-model="quertion3"
+                  v-model="question3"
                 />
                 <label class="form-check-label" for="q1_r3"> 3 </label>
               </div>
@@ -121,7 +121,7 @@
                   name="q3"
                   id="q3_r3"
                   value="4"
-                  v-model="quertion3"
+                  v-model="question3"
                 />
                 <label class="form-check-label" for="q1_r4"> 4 </label>
               </div>
@@ -149,7 +149,7 @@
                   name="q4"
                   id="q4_r4"
                   value="Single Family"
-                  v-model="quertion4"
+                  v-model="question4"
                 />
                 <label class="form-check-label" for="q1_r1">
                   Single Family
@@ -163,7 +163,7 @@
                   name="q4"
                   id="q4_r4"
                   value="Bachelors"
-                  v-model="quertion4"
+                  v-model="question4"
                 />
                 <label class="form-check-label" for="q1_r2"> Bachelors </label>
               </div>
@@ -190,7 +190,7 @@
                   name="q5"
                   id="q5_r5"
                   value="Yes"
-                  v-model="quertion5"
+                  v-model="question5"
                 />
                 <label class="form-check-label" for="q1_r1"> Yes </label>
               </div>
@@ -202,7 +202,7 @@
                   name="q5"
                   id="q5_r5"
                   value="No"
-                  v-model="quertion5"
+                  v-model="question5"
                 />
                 <label class="form-check-label" for="q1_r2"> No </label>
               </div>
@@ -220,6 +220,10 @@
             </div>
           </div>
         </div>
+        <div v-if="showPopup">
+          <h2>Success!</h2>
+          <p>Your form has been submitted.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -228,6 +232,7 @@
 <script>
 import axios from "axios";
 import { onMounted } from "vue";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
@@ -238,13 +243,14 @@ export default {
       q3_id: 4,
       q4_id: 5,
       q5_id: 9,
-      quertion1: "",
-      quertion2: "",
-      quertion3: "",
-      quertion4: "",
-      quertion5: "",
+      question1: "",
+      question2: "",
+      question3: "",
+      question4: "",
+      showPopup: false,
+      question5: "",
       currentPage: 1,
-      question: [],
+      submit_question: [],
     };
   },
   created() {
@@ -253,27 +259,59 @@ export default {
     });
   },
   methods: {
+    ...mapMutations(["updateData"]),
     async getQuestion() {
       try {
         const response = await axios.get(
           "http://18.177.139.152/questionair/basic/question/"
         );
+        const data = {};
+        data.allQuestion = response.data;
+        this.updateData(data);
+        console.log(
+          this.$store.state.data.allQuestion.Rental_Listings[0]["id"],
+          "hello"
+        );
         this.allData = [...this.allData, ...response.data.Rental_Listings];
-        console.log(this.allData);
       } catch (error) {
         console.log(error);
       }
     },
     async attach_question_to_listing() {
       try {
-        this.quertion.push(
-          { id: this.q1_id, ans: this.quertion1 },
-          { id: this.q2_id, ans: this.quertion2 },
-          { id: this.q3_id, ans: this.quertion3 },
-          { id: this.q4_id, ans: this.quertion4 },
-          { id: this.q5_id, ans: this.quertion5 }
+        const token = localStorage.getItem("token");
+        const user_id = localStorage.getItem("id");
+        console.log(user_id);
+        console.log("Bearer" + " " + token);
+        this.submit_question.push(
+          { id: this.q1_id, ans: this.question1 },
+          { id: this.q2_id, ans: this.question2 },
+          { id: this.q3_id, ans: this.question3 },
+          { id: this.q4_id, ans: this.question4 },
+          { id: this.q5_id, ans: this.question5 }
         );
-        console.log(this.question);
+        const config = {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+        };
+        const postData = {
+          question: this.submit_question,
+          listing: this.$store.state.data.listing_id,
+        };
+
+        console.log(postData);
+        axios
+          .post("http://18.177.139.152/questionair/answer/", postData, config)
+          .then((response) => {
+            console.log(response);
+            this.showPopup = true;
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } catch (error) {
         console.log(error);
       }
