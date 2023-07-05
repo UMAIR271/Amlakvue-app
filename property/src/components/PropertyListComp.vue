@@ -3553,13 +3553,6 @@
         <div style="height: 3400px">
           <img class="stickyss" src="../assets/Images/adds_image1.png" />
         </div>
-        <div style="height: 1750px">
-          <img
-            class="stickyss"
-            src="../assets/Images/adds_image1.png"
-            style="margin-top: 50px"
-          />
-        </div>
       </div>
     </div>
     <div>

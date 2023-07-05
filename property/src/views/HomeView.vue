@@ -13,21 +13,64 @@
         /></a>
       </div>
     </div>
-    <PopularSearch />
+    <!-- <PopularSearch /> -->
   </div>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+  />
 </template>
 
 <script>
 // @ is an alias to /src
-import { Banner, Slider, PopularSearch, NewsFromBlog } from "@/components";
+import { Banner, Slider, NewsFromBlog } from "@/components";
+import Loading from "vue-loading-overlay";
+import { mapMutations } from "vuex";
+import "vue-loading-overlay/dist/css/index.css";
 
 export default {
   name: "HomeView",
   components: {
     Banner,
     Slider,
-    PopularSearch,
+    // PopularSearch,
     NewsFromBlog,
+    Loading,
+  },
+  // data() {
+  //   return {
+  //     isLoading: false,
+  //   };
+  // },
+  mounted() {
+    // this.isLoading = true;
+    // setTimeout(() => {
+    //   this.isLoading = false;
+    // }, 2000);
+  },
+  methods: {
+    ...mapMutations(["updateData"]),
+    checkLoggedIn() {
+      // Check login status here, for example, by checking if there's a token in localStorage
+      const token = localStorage.getItem("token");
+      console.log(token);
+      const checkLogin = token !== null;
+      if (token) {
+        const data = {};
+        data.isLogin = true;
+        this.updateData(data);
+        this.$router.push("/");
+      } else {
+        const data = {};
+        data.isLogin = false;
+        this.updateData(data);
+        this.$router.push("/");
+      }
+
+      console.log(checkLogin);
+    },
   },
 };
 </script>

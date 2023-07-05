@@ -226,7 +226,7 @@
               <p1>23,345 AED/month</p1>
             </div>
             <div>
-              <button class="exterme">Intrested</button>
+              <button class="exterme">Interested</button>
             </div>
           </div>
 
@@ -247,7 +247,7 @@
                     font-family: sans-serif;
                   "
                 >
-                  Binghatti Gems
+                  {{ listingdata.property_location }}
                 </h3>
                 <h4
                   style="
@@ -557,7 +557,9 @@
               <p1>23,345 AED/month</p1>
             </div>
             <div style="width: 100%">
-              <button @click="Intrested()" class="exterme">Intrested</button>
+              <button @click="Intrested(listingdata.id)" class="exterme">
+                Interested
+              </button>
             </div>
             <hr style="margin-top: 30px" />
             <div>
@@ -797,10 +799,71 @@ export default {
         console.error(error);
       }
     },
-    Intrested() {
-      this.$router.push({
-        path: "/rentQuestionair",
-      });
+    Intrested(id) {
+      console.log(id, "id");
+      // this.$router.push({
+      //   path: "/rentQuestionair",
+      // });
+    },
+    async showQuestion(id) {
+      console.log("questions");
+      console.log("this.id", id);
+      let user_id = localStorage.getItem("user_id");
+      if (user_id) {
+        console.log(user_id);
+        const response = await axios.get(
+          "http://18.177.139.152/list/get/" + id + "/",
+          {
+            params: {
+              user_id,
+            },
+          }
+        );
+        this.ownerid = response.data.user_id;
+        this.listingid = response.data.id;
+        console.log(response.data.id, "getlisting");
+        console.log(
+          response.data.attached_question,
+          "response.data.attached_question"
+        );
+        if (response.data.attached_question.length != 0) {
+          for (let obj of response.data.attached_question) {
+            for (let question of this.listingQestion) {
+              if (obj["question_id"] == question["id"]) {
+                this.allquestion.push(question["question_text"]);
+              }
+            }
+          }
+        } else {
+          console.log("astaggirullah");
+          this.$router.push({
+            path: "/chat",
+          });
+        }
+        console.log(this.allquestion);
+
+        document.getElementById("open_form").style.display = "block";
+        document.getElementById("background").style.display = "block";
+        document.documentElement.style.overflow = "hidden";
+        document.body.scroll = "no";
+      } else {
+        this.Notify("Login");
+      }
+    },
+    async getQuestion() {
+      try {
+        const response = await axios.get(
+          "http://18.177.139.152/questionair/basic/question/"
+        );
+        console.log(response.data.Sales_Listings);
+        for (let question of response.data.Sales_Listings) {
+          console.log(question, "love");
+        }
+        this.listingQestion.push(...response.data.Sales_Listings);
+        this.allData = [...this.allData, ...response.data.Sales_Listings];
+      } catch (error) {
+        console.log(error);
+      }
     },
     slideTo(val) {
       this.currentSlide = val;

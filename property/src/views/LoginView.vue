@@ -1,79 +1,4 @@
 <template>
-  <!-- <div class="splash-container">
-    <div class="card">
-      <div class="card-header text-center">
-        <router-link to="/">
-          <img
-            class="logo-img"
-            src="@/assets/dashboard/images/logo.png"
-            alt="logo"
-          />
-        </router-link>
-        <span class="splash-description"
-          >Please enter your user information.</span
-        >
-      </div>
-      <div class="card-body">
-        <form @submit.prevent="submit">
-          <div class="form-group">
-            <input
-              class="form-control form-control-lg"
-              type="email"
-              name="email"
-              required=""
-              placeholder="E-mail"
-              v-model="email"
-              autocomplete="off"
-            />
-          </div>
-          <div class="form-group">
-            <input
-              class="form-control form-control-lg"
-              id="password"
-              type="password"
-              v-model="password"
-              placeholder="Password"
-            />
-          </div>
-          <div class="form-group">
-            <label class="custom-control custom-checkbox">
-              <input class="custom-control-input" type="checkbox" /><span
-                class="custom-control-label"
-                >Remember Me</span
-              >
-            </label>
-          </div>
-          <div class="form-group" v-if="errors.length">
-            <p
-              class="badge badge-danger"
-              v-for="error in errors"
-              v-bind:key="error"
-            >
-              {{ error }}
-            </p>
-          </div>
-
-          <button
-            @click="login()"
-            type="submit"
-            class="btn btn-primary btn-lg btn-block"
-          >
-            Sign in
-          </button>
-        </form>
-      </div>
-      <div class="card-footer bg-white p-0">
-        <div class="card-footer-item card-footer-item-bordered">
-          <router-link to="/register" class="footer-link">
-            Create An Account
-          </router-link>
-        </div>
-        <div class="card-footer-item card-footer-item-bordered">
-          <a href="#" class="footer-link">Forgot Password</a>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div class="center">
     <h1>Login</h1>
     <form @submit.prevent="submit" method="post">
@@ -94,7 +19,7 @@
         <label>Password</label>
       </div>
       <div class="pass">Forgot password?</div>
-      <div class="form-group" v-if="errors.length">
+      <div class="form-group text-center" v-if="errors.length">
         <p
           class="badge badge-danger p-2 ms-3"
           v-for="error in errors"
@@ -136,11 +61,23 @@
       </div>
     </form>
   </div>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+  />
 </template>
 
 <script>
 import axios from "axios";
 import { useSetTitle } from "@/composables";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
+// import topheaders from "../components/HeaderComp.vue";
+// import endfooter from "../components/FooterComp.vue";
+import { mapMutations } from "vuex";
+
 export default {
   name: "LoginView",
   setup() {
@@ -150,11 +87,21 @@ export default {
     return {
       email: "",
       password: "",
+      isLoading: false,
       errors: [],
     };
   },
+  components: {
+    Loading,
+    // endfooter,
+  },
+  mounted() {
+    console.log("listing_id", this.$store.state.data.temp);
+  },
   methods: {
+    ...mapMutations(["updateData"]),
     async login() {
+      this.isLoading = true;
       console.log(this.email);
       console.log(this.password);
       axios.defaults.headers.common["Authorization"] = "";
@@ -179,18 +126,19 @@ export default {
           axios.defaults.headers.common["Authorization"] = "Token " + token;
           // this.$ls.set("token", token);
           // this.$ls.set("id", user_id);
-
           localStorage.setItem("token", token);
           localStorage.setItem("user_id", user_id);
           const toPath = this.$route.query.to || "/";
+          this.isLoading = false;
+          const data = {};
+          data.isLogin = true;
+          this.updateData(data);
           this.$router.push(toPath);
         })
         .catch((error) => {
           if (error.response) {
-            for (const property in error.response.data) {
-              console.log(error.response.data.message);
-              this.errors.push(`${property}: ${error.response.data.message}`);
-            }
+            this.errors.push(error.response.data.message);
+            this.isLoading = false;
           } else {
             this.errors.push("Something went wrong. Please try again");
             console.log(JSON.stringify(error));
@@ -204,8 +152,13 @@ export default {
 <style>
 @import "@/assets/dashboard/vendor/bootstrap/css/bootstrap.min.css";
 @import "@/assets/dashboard/vendor/fonts/circular-std/style.css";
-@import "@/assets/dashboard/libs/css/style.css";
+/* @import "@/assets/dashboard/libs/css/style.css"; */
 @import "@/assets/dashboard/vendor/fonts/fontawesome/css/fontawesome-all.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css";
+/* @import "https://unpkg.com/flickity@2/dist/flickity.min.css"; */
+/* @import "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"; */
+@import "@/assets/css/style.css";
 
 .splash-container {
   position: absolute;
@@ -219,7 +172,7 @@ export default {
   top: 50%;
   left: 50%;
   width: 600px;
-  height: 600px;
+  height: 700px;
   transform: translate(-50%, -50%);
   background-color: rgb(240, 235, 235);
   border-radius: 10px;

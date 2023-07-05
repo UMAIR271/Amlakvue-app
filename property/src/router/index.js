@@ -25,6 +25,12 @@ const routes = [
         component: () => import("@/views/requestView.vue"),
       },
       {
+        name: "loading",
+        path: "/loading",
+        props: true,
+        component: () => import("@/views/loadingView.vue"),
+      },
+      {
         name: "PropertyListBuy",
         path: "/propertiesBuy",
         props: true,
@@ -81,6 +87,11 @@ const routes = [
         name: "Test",
         path: "/test1",
         component: () => import("@/views/test1View.vue"),
+      },
+      {
+        name: "chatTest",
+        path: "/chatTest",
+        component: () => import("@/views/chatTestView.vue"),
       },
     ],
   },

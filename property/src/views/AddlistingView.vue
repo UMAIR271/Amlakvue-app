@@ -592,6 +592,12 @@
         </button>
       </div>
     </form>
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :on-cancel="onCancel"
+      :is-full-page="fullPage"
+    />
   </div>
 </template>
 
@@ -599,14 +605,26 @@
 import axios from "axios";
 // import { toast } from "bulma-toast";
 import { useSetTitle } from "@/composables";
+import { mapState } from "vuex";
 import { mapMutations } from "vuex";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 var user_id = "";
 // import { mount } from "@vue/test-utils";
 export default {
   name: "AddlistingView",
+  computed: {
+    ...mapState({
+      data: (state) => state.data,
+    }),
+  },
   setup() {
     useSetTitle("Addlisting");
   },
+  components: {
+    Loading,
+  },
+
   data() {
     return {
       Title: "",
@@ -643,6 +661,7 @@ export default {
       longitude: "",
       user_id: "",
       errors: [],
+      isLoading: false,
     };
   },
   mounted() {
@@ -668,7 +687,7 @@ export default {
     ...mapMutations(["updateData"]),
     checkForm() {
       const token = localStorage.getItem("token");
-      user_id = localStorage.getItem("id");
+      user_id = localStorage.getItem("user_id");
       console.log(user_id);
       console.log("Bearer" + " " + token);
       this.errors = [];
@@ -833,13 +852,8 @@ export default {
           Authorization: "Bearer " + token,
         },
       };
-      // for (var i = 0; i < this.$refs.file.files.length; i++) {
-      //   console.log(this.$refs.file.files.length);
-      //   let file = this.$refs.file.files[i];
-      //   console.log(file);
-      //   // this.images_Url.append("files[" + i + "]", file);
-      // }
       if (!this.errors.length) {
+        this.isLoading = true;
         const formData = {
           Title: this.Title,
           Descriptions: this.Descriptions,
@@ -880,10 +894,9 @@ export default {
           .post("http://18.177.139.152/list/post/", formData, config)
           .then((response) => {
             console.log(response.data.listing_id);
-            let current_listing_id = response.data.listing_id;
-            console.log("current_listing_id", current_listing_id);
             const data = {};
-            data.listing_id = current_listing_id;
+            data.CurrentListing = response.data.listing_id;
+            console.log(data);
             this.updateData(data);
             if (this.Purpose === "Rent") {
               this.$router.push("/rentQuestionair");
@@ -893,6 +906,7 @@ export default {
           })
           .catch((error) => {
             if (error.response) {
+              this.isLoading = false;
               for (const property in error.response.data) {
                 this.errors.push(`${property}: ${error.response.data.message}`);
               }

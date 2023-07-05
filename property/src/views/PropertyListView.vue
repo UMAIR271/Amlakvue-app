@@ -105,7 +105,7 @@
       </div>
     </div>
     <hr />
-    <!-- <PropertyListComp /> -->
+    <!-- intrested form submission section -->
     <div>
       <div id="open_form" class="almost-centered">
         <span
@@ -194,14 +194,11 @@
       </div>
       <div class="row-full" id="background" @click="closeNav()"></div>
     </div>
+    <!-- <PropertyListComp /> -->
 
     <div class="after_header">
       <div><h4>Properties for sale in UAE</h4></div>
-      <div style="display: flex">
-        <p>89110 results</p>
-        <p class="new-res">1602 new</p>
-      </div>
-      <div class="flex_block">
+      <!-- <div class="flex_block">
         <div class="map_view">
           <button class="button4">
             <i
@@ -227,9 +224,9 @@
             </select>
           </p>
         </div>
-      </div>
-      <!-- 
-      <div id="villa" class="villas">
+      </div> -->
+
+      <!-- <div id="villa" class="villas">
         <div style="width: 80%">
           <div
             style="
@@ -356,8 +353,11 @@
       <!-- card section starts -->
       <div style="display: flex; justify-content: space-between">
         <div class="cards-section">
-          <div class="main_div1" v-for="(value, key) in allData" :key="key">
-            <!-- <p class="d-none">{{ value.id }}</p> -->
+          <div
+            class="main_div1"
+            v-for="(value, key) in paginatedData"
+            :key="key"
+          >
             <a style="text-decoration: none; color: black"
               ><div class="slideshow-container">
                 <div class="width30">
@@ -372,7 +372,7 @@
                         <img
                           v-bind:src="value.cover_image"
                           class="d-block w-100 slider"
-                          style="width: 100%"
+                          style="width: 100%; height: 250px"
                         />
                       </div>
                       <div class="carousel-item">
@@ -380,6 +380,7 @@
                           v-bind:src="value.cover_image"
                           class="d-block w-100 slider"
                           alt="..."
+                          style="width: 100%; height: 250px"
                         />
                       </div>
                       <div class="carousel-item">
@@ -387,6 +388,7 @@
                           v-bind:src="value.cover_image"
                           class="d-block w-100 slider"
                           alt="..."
+                          style="width: 100%; height: 250px"
                         />
                       </div>
                     </div>
@@ -418,11 +420,16 @@
                 </div>
                 <div class="content">
                   <div style="margin-left: 20px">
-                    <p style="font-size: 13px; color: #7d8183; margin: 0">
+                    <p
+                      style="font-size: 13px; color: #7d8183; margin: 0"
+                      @click="getlistingid(value.id)"
+                    >
                       Appartment
                     </p>
                     <div style="display: flex; justify-content: space-between">
-                      <h3>{{ value.property_pricing }} AED</h3>
+                      <h3 @click="getlistingid(value.id)">
+                        {{ value.property_pricing }} AED
+                      </h3>
                       <div style="margin-right: 10px">
                         <label class="add-fav1">
                           <input type="checkbox" />
@@ -435,16 +442,18 @@
                       </div>
                     </div>
 
-                    <p style="margin: 0">
+                    <p style="margin: 0" @click="getlistingid(value.id)">
                       Exclusive |{{ value.Bedrooms }} Bedroom plus Study |
                       Upgraded Unit
                     </p>
-                    <div style="display: flex; margin: 5px 0px">
+                    <div
+                      style="display: flex; margin: 5px 0px"
+                      @click="getlistingid(value.id)"
+                    >
                       <span
                         ><i class="fa fa-bed"></i>&nbsp;
                         {{ value.Bedrooms }}</span
                       >
-                      <p>{{ value.id }}</p>
                       &nbsp; | &nbsp;
                       <span
                         ><i class="fa fa-bath" aria-hidden="true"></i> &nbsp;{{
@@ -456,7 +465,10 @@
                         &nbsp;1033</span
                       >
                     </div>
-                    <p style="color: #7d8183; margin: 0">
+                    <p
+                      style="color: #7d8183; margin: 0"
+                      @click="getlistingid(value.id)"
+                    >
                       <i
                         class="fa fa-map-marker"
                         style="font-size: 17px; margin: 0"
@@ -634,37 +646,45 @@
               </div></a
             >
           </div>
-
           <div style="margin-top: 20px">
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
+                <li class="page-item" :class="{ disabled: currentPage === 1 }">
                   <a
                     class="page-link"
                     href="#"
-                    tabindex="-1"
-                    style="color: #007ea8"
-                    >Previous</a
+                    @click="setCurrentPage(currentPage - 1)"
                   >
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">1</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">4</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">5</a>
+                    Previous
+                  </a>
                 </li>
 
-                <li class="page-item">
-                  <a class="page-link" href="#" style="color: #007ea8">Next</a>
+                <li
+                  v-for="pageNumber in totalPages"
+                  :key="pageNumber"
+                  class="page-item"
+                  :class="{ active: currentPage === pageNumber }"
+                >
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="setCurrentPage(pageNumber)"
+                  >
+                    {{ pageNumber }}
+                  </a>
+                </li>
+
+                <li
+                  class="page-item"
+                  :class="{ disabled: currentPage === totalPages }"
+                >
+                  <a
+                    class="page-link"
+                    href="#"
+                    @click="setCurrentPage(currentPage + 1)"
+                  >
+                    Next
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -680,50 +700,48 @@
           <div>
             <h5>Popular searches</h5>
             <p class="p_underline">
-              <a href="#" class="p_underline">Properties for sale</a>
+              <a href="#" class="p_underline" @click="filter_data('Duplex')"
+                >Duplex Properties</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">Apartments for sale</a>
+              <a href="#" class="p_underline" @click="filter_data('Compound')"
+                >Compound Properties</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">he Villas for salello</a>
+              <a href="#" class="p_underline" @click="filter_data('Full floor')"
+                >Full floor for sale</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">Townhouses for sale</a>
+              <a href="#" class="p_underline" @click="filter_data(1)"
+                >1 bedroom properties for sale</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">Penthouses for sale</a>
+              <a href="#" class="p_underline" @click="filter_data(2)"
+                >2 bedroom properties for sale</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">he Compounds for salello</a>
+              <a href="#" class="p_underline" @click="filter_data(3)"
+                >3 bedroom properties for sale</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">hel Duplexes for salelo</a>
+              <a href="#" class="p_underline" @click="filter_data(4)"
+                >4 bedroom properties for sale</a
+              >
             </p>
             <p class="p_underline">
-              <a href="#" class="p_underline">Land for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">Hotel apartments for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">1 bedroom properties for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">2 bedroom properties for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">3 bedroom properties for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">4 bedroom properties for sale</a>
-            </p>
-            <p class="p_underline">
-              <a href="#" class="p_underline">5 bedroom properties for sale</a>
+              <a href="#" class="p_underline" @click="filter_data(5)"
+                >5 bedroom properties for sale</a
+              >
             </p>
 
             <hr />
-            <h5>Nearby Areas</h5>
+            <!-- <h5>Nearby Areas</h5>
             <p class="p_underline">
               <a href="#" class="p_underline">Properties for sale in Dubai</a>
             </p>
@@ -744,13 +762,15 @@
               >
             </p>
 
-            <hr />
-            <h5>Properties for Rent</h5>
+            <hr />-->
+            <!-- <h5>Properties for Rent</h5>
             <p class="p_underline">
-              <a href="#" class="p_underline">Properties for rent</a>
+              <a href="#" class="p_underline" @click="filter_data('Sell')"
+                >Properties for Buy</a
+              >
             </p>
 
-            <hr />
+            <hr /> -->
           </div>
           <div style="height: 3400px">
             <img class="stickyss" src="../assets/Images/adds_image1.png" />
@@ -775,25 +795,21 @@
 
 <script>
 import axios from "axios";
-// import { PropertySearch } from "@/components";
-// import store from "./main";
-// import { PropertyListComp } from "@/components";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 import { mapMutations } from "vuex";
 import { onMounted } from "vue";
 
 export default {
   name: "PropertyList",
-  components: {
-    // PropertySearch,
-    // PropertyListComp,
-  },
+
   data() {
     return {
-      q1_id: 1,
-      q2_id: 3,
-      q3_id: 4,
-      q4_id: 5,
-      q5_id: 9,
+      q1_id: 6,
+      q2_id: 7,
+      q3_id: 8,
+      q4_id: 11,
+      q5_id: 12,
       ans0: "",
       ans1: "",
       ans2: "",
@@ -804,11 +820,29 @@ export default {
       allquestion: [],
       listingQestion: [],
       submit_question: [],
-      currentPage: 1,
+      perPage: 7, // number of items per page
+      currentPage: 1, // current page number
+      startIndex: 0, // start index of items to be displayed on the current page
       listingid: "",
       id: "",
       status: "",
     };
+  },
+  computed: {
+    paginatedData() {
+      if (this.allData.length === 0) {
+        return [];
+      }
+      return this.allData.slice(
+        this.startIndex,
+        this.startIndex + this.perPage
+      );
+    },
+
+    totalPages() {
+      console.log(this.allData.length);
+      return Math.ceil(this.allData.length / this.perPage);
+    },
   },
   created() {
     onMounted(() => {
@@ -848,72 +882,6 @@ export default {
         console.error(error);
       }
     },
-    async getAllData() {
-      let response = await this.getDataFromAPI(this.currentPage);
-      let next = response.data.next;
-      console.log(next);
-      this.allData = [...this.allData, ...response.data.results];
-      while (next) {
-        console.log("hello");
-        this.currentPage++;
-        response = await this.getDataFromAPI(this.currentPage);
-        this.allData = [...this.allData, ...response.data.results];
-        console.log(this.allData);
-      }
-    },
-    getlistingid(id) {
-      const data = {};
-      data.id = id;
-      console.log("this.id", this.id);
-      this.updateData(data);
-      this.$router.push({
-        path: "/property/:property_id/show",
-      });
-    },
-    async showQuestion(id) {
-      console.log("questions");
-      console.log("this.id", id);
-      let user_id = localStorage.getItem("user_id");
-      console.log(user_id);
-      const response = await axios.get(
-        "http://18.177.139.152/list/get/" + id + "/",
-        {
-          params: {
-            user_id,
-          },
-        }
-      );
-      this.ownerid = response.data.user_id;
-      this.listingid = response.data.id;
-      console.log(response.data.id, "getlisting");
-      for (let obj of response.data.attached_question) {
-        for (let question of this.listingQestion) {
-          if (obj["question_id"] == question["id"]) {
-            this.allquestion.push(question["question_text"]);
-          }
-        }
-      }
-      console.log(this.allquestion);
-
-      document.getElementById("open_form").style.display = "block";
-      document.getElementById("background").style.display = "block";
-      document.documentElement.style.overflow = "hidden";
-      document.body.scroll = "no";
-    },
-    async getQuestion() {
-      try {
-        const response = await axios.get(
-          "http://18.177.139.152/questionair/basic/question/"
-        );
-        for (let question of response.data.Rental_Listings) {
-          console.log(question, "love");
-        }
-        this.listingQestion.push(...response.data.Rental_Listings);
-        this.allData = [...this.allData, ...response.data.Rental_Listings];
-      } catch (error) {
-        console.log(error);
-      }
-    },
     async addToFavourite(id) {
       const token = localStorage.getItem("token");
       console.log(id);
@@ -938,6 +906,98 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    async getAllData() {
+      let response = await this.getDataFromAPI(this.currentPage);
+      let next = response.data.next;
+      console.log(next);
+      this.allData = [...this.allData, ...response.data.results];
+      while (next) {
+        console.log("hello");
+        this.currentPage++;
+        response = await this.getDataFromAPI(this.currentPage);
+        this.allData = [...this.allData, ...response.data.results];
+        console.log(this.allData);
+      }
+    },
+    Notify(data) {
+      if (data == "Login") {
+        toast("Please Login !", {
+          transition: toast.TRANSITIONS.BOUNCE,
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast("Questions submitted successfully", {
+          transition: toast.TRANSITIONS.BOUNCE,
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+    },
+    async showQuestion(id) {
+      console.log("questions");
+      console.log("this.id", id);
+      let user_id = localStorage.getItem("user_id");
+      if (user_id) {
+        console.log(user_id);
+        const response = await axios.get(
+          "http://18.177.139.152/list/get/" + id + "/",
+          {
+            params: {
+              user_id,
+            },
+          }
+        );
+        this.ownerid = response.data.user_id;
+        this.listingid = response.data.id;
+        console.log(response.data.id, "getlisting");
+        console.log(
+          response.data.attached_question,
+          "response.data.attached_question"
+        );
+        if (response.data.attached_question.length != 0) {
+          for (let obj of response.data.attached_question) {
+            for (let question of this.listingQestion) {
+              if (obj["question_id"] == question["id"]) {
+                this.allquestion.push(question["question_text"]);
+              }
+            }
+          }
+        } else {
+          console.log("astaggirullah");
+          this.$router.push({
+            path: "/chat",
+          });
+        }
+        console.log(this.allquestion);
+
+        document.getElementById("open_form").style.display = "block";
+        document.getElementById("background").style.display = "block";
+        document.documentElement.style.overflow = "hidden";
+        document.body.scroll = "no";
+      } else {
+        this.Notify("Login");
+      }
+    },
+    async getQuestion() {
+      try {
+        const response = await axios.get(
+          "http://18.177.139.152/questionair/basic/question/"
+        );
+        console.log(response.data.Sales_Listings);
+        for (let question of response.data.Sales_Listings) {
+          console.log(question, "love");
+        }
+        this.listingQestion.push(...response.data.Sales_Listings);
+        this.allData = [...this.allData, ...response.data.Sales_Listings];
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    closeNav() {
+      document.getElementById("open_form").style.display = "none";
+      document.getElementById("background").style.display = "none";
+      document.documentElement.style.overflow = "scroll";
+      document.body.scroll = "yes";
     },
     async attach_answer_to_listing() {
       try {
@@ -978,6 +1038,7 @@ export default {
             console.log(response);
             this.closeNav();
             this.status = true;
+            this.Notify("Sumbit");
           })
           .catch((error) => {
             console.error(error);
@@ -986,11 +1047,47 @@ export default {
         console.log(error);
       }
     },
-    closeNav() {
-      document.getElementById("open_form").style.display = "none";
-      document.getElementById("background").style.display = "none";
-      document.documentElement.style.overflow = "scroll";
-      document.body.scroll = "yes";
+    getlistingid(id) {
+      console.log("hellooooooo");
+      const data = {};
+      data.id = id;
+      console.log("this.id", this.id);
+      this.updateData(data);
+      this.$router.push({
+        path: "/property/:property_id/show",
+      });
+    },
+    async filter_data(value) {
+      const data = {};
+      if (typeof value === "string") {
+        console.log("myValue is a string", value);
+        data.check_Purpose_Type = "Sell";
+        data.check_property_Type = value;
+      } else if (typeof value === "number") {
+        data.check_Purpose_Type = "Sell";
+        data.check_bedroom = value;
+        console.log("myValue is a number", value);
+      } else {
+        console.log("myValue is not a string or a number");
+        data.check_Purpose_Type = "Sell";
+      }
+      const params = data;
+      this.updateData(data);
+      const response = await axios.get("http://18.177.139.152/list/filter/", {
+        params: params,
+      });
+      this.allData = [...this.allData, ...response.data.results];
+      console.log(response.data);
+      window.location.reload();
+      return response;
+    },
+    setCurrentPage(pageNumber) {
+      if (pageNumber < 1 || pageNumber > this.totalPages) {
+        return;
+      }
+
+      this.currentPage = pageNumber;
+      this.startIndex = (pageNumber - 1) * this.perPage;
     },
   },
 };
@@ -1293,7 +1390,7 @@ p2 {
   width: 100%;
   height: 100%;
 
-  background: #e0fafb;
+  background: #8c8;
 
   counter-increment: carousel-cell;
 }
@@ -1306,7 +1403,7 @@ p2 {
   background-color: #16b9ca;
   padding: 10px;
   font-weight: 600;
-  color: rgb(255, 255, 255);
+  color: rgb(253, 250, 250);
   border-radius: 7px;
   margin-bottom: 5px;
   margin-top: 5px;

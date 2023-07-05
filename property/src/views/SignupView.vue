@@ -1,117 +1,4 @@
 <template>
-  <!-- <form @submit.prevent="submitForm()" class="splash-container">
-    <div class="card">
-      <div class="card-header text-center">
-        <h3 class="mb-1">Registrations Form</h3>
-        <p>Please enter your user information.</p>
-      </div>
-      <div class="container">
-        <h4 class="text-center">Profil Image Upload</h4>
-        <div class="avatar-upload">
-          <div class="avatar-edit">
-            <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
-            <label for="imageUpload"></label>
-          </div>
-          <div class="avatar-preview">
-            <div
-              id="imagePreview"
-              style="background-image: url('http://i.pravatar.cc/500?img=7')"
-            ></div>
-          </div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="form-group">
-          <input
-            class="form-control form-control-lg"
-            type="text"
-            name="nick"
-            required=""
-            placeholder="Username"
-            v-model="username"
-            autocomplete="off"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            class="form-control form-control-lg"
-            type="email"
-            name="email"
-            required=""
-            placeholder="E-mail"
-            v-model="email"
-            autocomplete="off"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            class="form-control form-control-lg"
-            id="pass1"
-            type="password"
-            v-model="password"
-            required=""
-            placeholder="Password"
-          />
-        </div>
-        <div class="form-group">
-          <input
-            class="form-control form-control-lg"
-            type="password"
-            required=""
-            placeholder="Confirm"
-            v-model="password2"
-          />
-        </div>
-        <div class="form-group pt-2">
-          <button
-            class="btn btn-block btn-primary"
-            on-click="newRegister"
-            type="submit"
-          >
-            Register My Account
-          </button>
-        </div>
-        <div class="form-group" v-if="errors.length">
-          <p
-            class="badge badge-danger"
-            v-for="error in errors"
-            v-bind:key="error"
-          >
-            {{ error }}
-          </p>
-        </div>
-        <div class="form-group">
-          <label class="custom-control custom-checkbox">
-            <input class="custom-control-input" type="checkbox" /><span
-              class="custom-control-label"
-              >By creating an account, you agree the
-              <a href="#">terms and conditions</a></span
-            >
-          </label>
-        </div>
-        <div class="form-group row pt-0">
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-2">
-            <button class="btn btn-block btn-social btn-facebook" type="button">
-              Facebook
-            </button>
-          </div>
-          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <button class="btn btn-block btn-social btn-twitter" type="button">
-              Twitter
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer bg-white">
-        <p>
-          Already member?
-          <router-link to="/login" class="text-secondary">
-            Login Here.
-          </router-link>
-        </p>
-      </div>
-    </div>
-  </form> -->
   <div class="center">
     <h1 class="mt-4">SignUp</h1>
     <form @submit.prevent="submitForm()">
@@ -135,10 +22,9 @@
         <span></span>
         <label>Confirm Password</label>
       </div>
-      <div class="form-group" v-if="errors.length">
+      <div class="form-group text-center" v-if="errors.length">
         <p
-          class="badge-danger"
-          style="color: crimson"
+          class="badge badge-danger p-2"
           v-for="error in errors"
           v-bind:key="error"
         >
@@ -151,7 +37,9 @@
       <!-- <input type="submit" on-click="newRegister" value="Login" /> -->
       <div class="pic23">
         Already have an account
-        <a href="login.html" style="color: rgb(34, 34, 255)">Login</a>
+        <router-link to="/login" style="color: rgb(34, 34, 255)"
+          >Login</router-link
+        >
       </div>
       <p class="dell">
         <span style="background-color: rgb(240, 235, 235)">or</span>
@@ -176,16 +64,103 @@
       </div>
     </form>
   </div>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+  />
 </template>
-
 <script>
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 // import { toast } from "bulma-toast";
 import { useSetTitle } from "@/composables";
+// import topheaders from "../components/HeaderComp.vue";
+
 export default {
   name: "SignupView",
   setup() {
     useSetTitle("Signup");
+  },
+  components: {
+    // topheaders,
+    // endfooter,
+    Loading,
+  },
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      password2: "",
+      errors: [],
+    };
+  },
+  methods: {
+    submitForm() {
+      this.errors = [];
+      this.isLoading = true;
+      if (this.username === "") {
+        this.errors.push("The username is missing");
+        this.isLoading = false;
+      } else if (this.username.length < 3) {
+        this.errors.push("The username must be at least 3 characters long");
+        this.isLoading = false;
+      }
+      if (this.password === "") {
+        this.errors.push("The password is missing");
+        this.isLoading = false;
+      } else if (this.password.length < 6) {
+        this.errors.push("The password must be at least 6 characters long");
+        this.isLoading = false;
+      }
+      if (this.password !== this.password2) {
+        this.errors.push("The passwords doesn't match");
+        this.isLoading = false;
+      }
+      if (!this.errors.length) {
+        const formData = {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+          password2: this.password2,
+        };
+        axios
+          .post("http://18.177.139.152/loginapp/register/", formData)
+          .then((response) => {
+            console.log(response.data);
+            this.isLoading = false;
+            this.$router.push("/login");
+          })
+          .catch((error) => {
+            if (error.response) {
+              this.errors.push(error.response.data.message[0]);
+              this.isLoading = false;
+            } else if (error.message) {
+              this.errors.push("Something went wrong. Please try again");
+            }
+          });
+      }
+    },
+  },
+};
+</script>
+
+<!-- <script>
+import axios from "axios";
+// import { toast } from "bulma-toast";
+import { useSetTitle } from "@/composables";
+// import topheaders from "../components/HeaderComp.vue";
+export default {
+  name: "SignupView",
+  setup() {
+    useSetTitle("Signup");
+  },
+  components: {
+    // topheaders,
+    // endfooter,
   },
   data() {
     return {
@@ -226,21 +201,27 @@ export default {
           })
           .catch((error) => {
             if (error.response) {
+              console.log(error.response.data);
               for (const property in error.response.data) {
                 this.errors.push(`${property}: ${error.response.data.message}`);
               }
-              console.log(JSON.stringify(error.response.data));
             } else if (error.message) {
               this.errors.push("Something went wrong. Please try again");
-              console.log(JSON.stringify(error));
+              // console.log(JSON.stringify(error));
             }
           });
       }
     },
   },
 };
-</script>
+</script> -->
 <style>
+@import "@/assets/dashboard/vendor/fonts/fontawesome/css/fontawesome-all.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+@import "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css";
+/* @import "https://unpkg.com/flickity@2/dist/flickity.min.css"; */
+/* @import "https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"; */
+@import "@/assets/css/style.css";
 body {
   margin: 0;
   padding: 0;
@@ -252,7 +233,7 @@ body {
   top: 50%;
   left: 50%;
   width: 600px;
-  height: 750px;
+  height: 800px;
   transform: translate(-50%, -50%);
   background-color: rgb(240, 235, 235);
   border-radius: 10px;

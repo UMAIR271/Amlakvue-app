@@ -483,26 +483,31 @@
         /></a>
       </div>
     </div>
+    <loading
+      v-model:active="isLoading"
+      :can-cancel="true"
+      :on-cancel="onCancel"
+      :is-full-page="fullPage"
+    />
   </div>
 </template>
 
 <script>
 import axios from "axios";
-// import { PropertySearch } from "@/components";
-// import store from "./main";
-// import { PropertyListComp } from "@/components";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 import { mapMutations } from "vuex";
 import { onMounted } from "vue";
 var user_id = "";
 export default {
   name: "FavouriteListing",
   components: {
-    // PropertySearch,
-    // PropertyListComp,
+    Loading,
   },
   data() {
     return {
       allData: [],
+      isLoading: false,
       currentPage: 1,
     };
   },
@@ -515,36 +520,6 @@ export default {
 
   methods: {
     ...mapMutations(["updateData"]),
-    // async sendrequest() {
-    //   // axios
-    //   //   .get("http://18.177.139.152/list/filter/", {
-    //   //     params: this.$store.state.data,
-    //   //   })
-    //   // .then((response) => {
-    //   //   this.data = response.data;
-    //   //   console.log(this.data);
-    //   // })
-    //   // .catch((error) => {
-    //   //   console.error(error);
-    //   // });
-    //   try {
-    //     const response = await axios.get("http://18.177.139.152/list/filter/", {
-    //       params: this.$store.state.data,
-    //     });
-    //     console.log(response.data.results);
-    //     this.allData = response.data.results;
-    //     this.nextPage = response.data.next;
-    //     try {
-    //       const response = await axios.get(this.nextPage);
-    //       this.rentnext = response.data.results;
-    //       console.log(this.rentnext);
-    //     } catch (error) {
-    //       console.error(error);
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
     async getDataFromAPI(page) {
       try {
         if (page === 1) {
@@ -587,6 +562,7 @@ export default {
       }
     },
     async getAllData() {
+      this.isLoading = true;
       let response = await this.getDataFromAPI(this.currentPage);
       let next = response.data.next;
       console.log(next);
@@ -598,6 +574,7 @@ export default {
         this.allData = [...this.allData, ...response.data.results];
         console.log(this.allData);
       }
+      this.isLoading = false;
     },
     showQuestion() {
       print("hello");

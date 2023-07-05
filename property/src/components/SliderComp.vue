@@ -1,16 +1,22 @@
 <template>
   <div>
     <h2>Something New Everyday</h2>
-    <p>New properties <a href="#" style="color: #007ea8">for rent</a></p>
+    <p>
+      New properties
+      <router-link style="color: #007ea8" to="/properties"
+        >for rent</router-link
+      >
+    </p>
     <Carousel :autoplay="2000" :settings="settings" :breakpoints="breakpoints">
       <Slide v-for="(value, key) in rent" :key="key">
         <div>
           <div class="carousel-cell">
-            <router-link
-              :to="{ path: '/properties' }"
-              @click="handlepage('Rent')"
-            >
-              <img v-bind:src="value.cover_image" class="carousel-imgs" />
+            <a>
+              <img
+                v-bind:src="value.cover_image"
+                @click="getlistingid(value.id)"
+                class="carousel-imgs"
+              />
               <div class="carousel-imgs-text">
                 <h6 class="imgs-text-h2">
                   <div class="marin_0">
@@ -24,10 +30,12 @@
                       </i>
                     </label>
                   </div>
-                </h6></div
-            ></router-link>
+                </h6>
+              </div>
+            </a>
+            <!-- </router-link> -->
             <div style="margin: 5px 0px">
-              <i class="fa fa-map-marker"></i>location
+              <i class="fa fa-map-marker"></i>{{ value.property_location }}
             </div>
             <div
               style="
@@ -55,17 +63,20 @@
       </template>
     </Carousel>
     <p style="margin-top: 20px">
-      New properties <a href="#" style="color: #007ea8">for sale</a>
+      New properties
+      <router-link style="color: #007ea8" to="/propertiesBuy"
+        >for sale</router-link
+      >
     </p>
     <Carousel :autoplay="2000" :settings="settings" :breakpoints="breakpoints">
       <Slide v-for="(value, key) in sell" :key="key">
         <div>
           <div class="carousel-cell">
-            <router-link
-              :to="{ path: '/propertiesBuy' }"
-              @click="handlepage('Sell')"
-            >
-              <img v-bind:src="value.cover_image" class="carousel-imgs" />
+            <a>
+              <img
+                v-bind:src="value.cover_image"
+                class="carousel-imgs"
+                @click="getlistingid(value.id)" />
               <div class="carousel-imgs-text">
                 <h6 class="imgs-text-h2">
                   <div class="marin_0">
@@ -80,9 +91,9 @@
                     </label>
                   </div>
                 </h6></div
-            ></router-link>
+            ></a>
             <div style="margin: 5px 0px">
-              <i class="fa fa-map-marker"></i>location
+              <i class="fa fa-map-marker"></i>{{ value.property_location }}
             </div>
             <div
               style="
@@ -210,26 +221,32 @@ export default {
     async addToFavourite(id) {
       const token = localStorage.getItem("token");
       console.log(id);
-      try {
-        const formData = {
-          listing: id,
-          status: "True",
-        };
-        const config = {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-            Authorization: "Bearer " + token,
-          },
-        };
-        const response = await axios.post(
-          "http://18.177.139.152/favourite/listing/",
-          formData,
-          config
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
+      if (token) {
+        try {
+          const formData = {
+            listing: id,
+            status: "True",
+          };
+          const config = {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "multipart/form-data",
+              Authorization: "Bearer " + token,
+            },
+          };
+          const response = await axios.post(
+            "http://18.177.139.152/favourite/listing/",
+            formData,
+            config
+          );
+          console.log(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        this.$router.push({
+          path: "/login",
+        });
       }
     },
     handlepage(page) {
@@ -244,6 +261,15 @@ export default {
         data.check_Purpose_Type = page;
         this.updateData(data);
       }
+    },
+    getlistingid(id) {
+      const data = {};
+      data.id = id;
+      console.log("this.id", this.id);
+      this.updateData(data);
+      this.$router.push({
+        path: "/property/:property_id/show",
+      });
     },
   },
 };

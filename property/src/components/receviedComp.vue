@@ -15,27 +15,44 @@
           request.list["Title"]
         }}</span>
       </p>
-      <div id="button-block">
-        <div id="confirm">Approved</div>
+      <div id="button-block" v-if="request.data1['is_request']">
+        <div id="confirm" @click="aprove('none')">Chat</div>
+      </div>
+      <div id="button-block" v-else>
+        <div @click="aprove(request.data1['id'])" id="confirm">Aprove</div>
       </div>
     </div>
   </div>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+  />
 </template>
 
 <script>
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 export default {
   data() {
     return {
       isMatch: "True",
+      isLoading: false,
+      aproved: [],
       allData: [],
     };
+  },
+  components: {
+    Loading,
   },
   mounted() {
     this.getinterestedrequest();
   },
   methods: {
     getinterestedrequest() {
+      this.isLoading = true;
       const isMatch = this.isMatch;
       console.log(isMatch);
       try {
@@ -54,20 +71,60 @@ export default {
         axios
           .get("http://18.177.139.152/questionair/getinterestedrequest/", {
             params: {
-              is_match: isMatch ? "True" : "False",
+              is_match: this.isMatch ? "True" : "False",
             },
             headers: config.headers,
           })
           .then((response) => {
-            console.log(response.data);
+            console.log(response.data, "hello");
             this.allData = [...response.data];
             console.log(this.allData);
+            this.isLoading = false;
           })
           .catch((error) => {
             console.error(error);
+            this.isLoading = false;
           });
       } catch (error) {
         console.log(error);
+        this.isLoading = false;
+      }
+    },
+    aprove(id) {
+      if (id !== "none") {
+        try {
+          var data = new FormData();
+          data.append("id", id);
+          data.append("is_request", "True");
+          console.log(id);
+          const token = localStorage.getItem("token");
+          const user_id = localStorage.getItem("user_id");
+          console.log(user_id);
+          var config = {
+            method: "put",
+            url: "http://18.177.139.152/questionair/isrequest/",
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+            data: data,
+          };
+          axios(config)
+            .then(function (response) {
+              console.log(JSON.stringify(response.data));
+              this.$router.push({
+                path: "/chat",
+              });
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.$router.push({
+          path: "/chat",
+        });
       }
     },
   },

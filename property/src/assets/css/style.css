@@ -201,7 +201,8 @@ header {
   color: white;
   border: none;
   border-radius: 4px;
-  padding: 15px 80px;
+  padding: 15px 40px;
+  margin-top: 10px;
   background-color: #247da9;
   font-size: medium;
 }
@@ -1164,7 +1165,10 @@ padding: 10px;
   margin-right: 20px;
 }
 .button1:hover {
-  background-color: lightgray;
+  background-color: #c3f8fa;
+}
+.button1:active {
+  background-color: #166186;
 }
 .button2 {
   background-color: rgb(249, 249, 249);
@@ -1175,7 +1179,10 @@ padding: 10px;
   padding: 8px;
 }
 .button2:hover {
-  background-color: lightgray;
+  background-color: #c3f8fa;
+}
+.button2:active {
+  background-color: #166186;
 }
 .slider {
   height: 300px;

@@ -35,21 +35,34 @@
       </div>
     </div>
   </section>
+  <loading
+    v-model:active="isLoading"
+    :can-cancel="true"
+    :on-cancel="onCancel"
+    :is-full-page="fullPage"
+  />
 </template>
 
 <script>
 import axios from "axios";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/css/index.css";
 export default {
   data() {
     return {
       allData: [],
+      isLoading: false,
     };
   },
   mounted() {
     this.getNotification();
   },
+  components: {
+    Loading,
+  },
   methods: {
     getNotification() {
+      this.isLoading = true;
       try {
         const token = localStorage.getItem("token");
         const user_id = localStorage.getItem("user_id");
@@ -75,6 +88,7 @@ export default {
           .catch((error) => {
             console.error(error);
           });
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
       }
