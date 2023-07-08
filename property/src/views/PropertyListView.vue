@@ -820,7 +820,7 @@ export default {
       allquestion: [],
       listingQestion: [],
       submit_question: [],
-      perPage: 7, // number of items per page
+      perPage: 15, // number of items per page
       currentPage: 1, // current page number
       startIndex: 0, // start index of items to be displayed on the current page
       listingid: "",
