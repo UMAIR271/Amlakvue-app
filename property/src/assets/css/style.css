@@ -4,7 +4,7 @@ body {
 }
 header {
   background-color: white;
-  display: flex;
+  /* display: flex; */
   text-align: center;
   justify-content: center;
 }

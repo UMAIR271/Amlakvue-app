@@ -14,52 +14,63 @@
 </template>
 
 <script>
+import AgoraRTM from "agora-rtm-sdk";
+import axios from "axios";
 import { register } from "vue-advanced-chat";
 // import { register } from '../../vue-advanced-chat/dist/vue-advanced-chat.es.js'
 register();
 export default {
   data() {
     return {
-      currentUserId: "1234",
-      rooms: [
-        {
-          roomId: "1",
-          roomName: "Room 1",
-          avatar: "https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj",
-          users: [
-            { name: "inviteUser", title: "Invite User" },
-            { name: "removeUser", title: "Remove User" },
-            { name: "deleteRoom", title: "Delete Room" },
-          ],
-        },
-        {
-          roomId: "2",
-          roomName: "Room 2",
-          avatar: "https://66.media.tumblr.com/avatar_c6a8eae4303e_512.pnj",
-          users: [
-            { name: "inviteUser", title: "Invite User" },
-            { name: "removeUser", title: "Remove User" },
-            { name: "deleteRoom", title: "Delete Room" },
-          ],
-        },
-      ],
+      currentUserId: "",
+      rooms: [],
       messages: [],
+      roomListData: [],
       messagesLoaded: false,
     };
   },
+  mounted() {
+    this.currentUserID = localStorage.getItem("user_id");
+    this.token = localStorage.getItem("token");
+
+    // Create a new AgoraRTM instance
+    const client = AgoraRTM.createInstance("21c61a1aa5d44cc09fda7e95b43561a2");
+    client
+      .login({ token: null, uid: this.currentUserID })
+      .then(() => {
+        console.log("Logged in to Agora RTM successfully");
+      })
+      .catch((error) => {
+        console.log("Failed to log in to Agora RTM", error);
+      });
+
+    client.on("MessageFromPeer", (message, peerId) => {
+      console.log(peerId, "peerId");
+      console.log(`Received message from ${peerId}: ${message.text}`);
+    });
+    this.recivedMessageToServer();
+
+    this.client = client;
+  },
+
   methods: {
     fetchMessages({ options = {} }) {
       setTimeout(() => {
         if (options.reset) {
           this.messages = this.addMessages(true);
+          console.log("this.messages", this.messages);
         } else {
+          console.log("else");
+          console.log("this.messages", this.messages);
           this.messages = [...this.addMessages(), ...this.messages];
+          console.log("this.messages", this.messages);
           this.messagesLoaded = true;
         }
         // this.addNewMessage()
       });
     },
     addMessages(reset) {
+      console.log("hello", reset);
       const messages = [];
       for (let i = 0; i < 10; i++) {
         messages.push({
@@ -98,6 +109,36 @@ export default {
           },
         ];
       }, 2000);
+    },
+
+    async recivedMessageToServer() {
+      const config = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.token,
+        },
+      };
+
+      try {
+        const response = await axios.get(
+          "http://18.177.139.152/chat/api/get_chat_inbox/",
+          config
+        );
+        console.log(response.data);
+        response.data.forEach((item) => {
+          const data = {};
+          data["roomId"] = item.chat_profile.id;
+          data["roomName"] = item.username;
+          data["avatar"] = "http://18.177.139.152/" + item.profile_image;
+          console.log(data);
+          this.rooms.push(data);
+        });
+        console.log(this.rooms);
+        console.log("Message sent to server successfully");
+      } catch (error) {
+        console.log("Failed to send message to server", error);
+      }
     },
   },
 };
