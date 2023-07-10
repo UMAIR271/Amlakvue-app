@@ -497,8 +497,11 @@
                   <div v-if="status">
                     <label class="add-fav">
                       <input class="input1" type="checkbox" />
-                      <i @click="showQuestion(value.id)" class="logo_botton"
+                      <!-- <i @click="showQuestion(value.id)" class="logo_botton"
                         >chat</i
+                      > -->
+                      <router-link to="/chat" class="nav-link"
+                        >Chat</router-link
                       >
                     </label>
                   </div>
@@ -912,6 +915,9 @@ export default {
           }
         );
         this.ownerid = response.data.user_id;
+        const data = {};
+        data.listingOwnerId = this.ownerid;
+        this.updateData(data);
         this.listingid = response.data.id;
         console.log(response.data.id, "getlisting");
         console.log(

@@ -100,13 +100,6 @@ export default {
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
 
-body {
-  font-family: "Roboto", sans-serif;
-  background: #eff1f3;
-  min-height: 100vh;
-  position: relative;
-}
-
 .section-50 {
   padding: 50px 0;
 }

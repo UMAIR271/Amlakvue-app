@@ -23,6 +23,7 @@ export default {
   data() {
     return {
       currentUserId: "",
+      token: "",
       rooms: [],
       messages: [],
       roomListData: [],
@@ -72,16 +73,16 @@ export default {
     addMessages(reset) {
       console.log("hello", reset);
       const messages = [];
-      for (let i = 0; i < 10; i++) {
-        messages.push({
-          _id: reset ? i : this.messages.length + i,
-          content: `${reset ? "" : "paginated"} message ${i + 1}`,
-          senderId: "4321",
-          username: "John Doe",
-          date: "13 November",
-          timestamp: "10:20",
-        });
-      }
+      // for (let i = 0; i < 10; i++) {
+      //   messages.push({
+      //     _id: reset ? i : this.messages.length + i,
+      //     content: `${reset ? "" : "paginated"} message ${i + 1}`,
+      //     senderId: "4321",
+      //     username: "John Doe",
+      //     date: "13 November",
+      //     timestamp: "10:20",
+      //   });
+      // }
       return messages;
     },
     sendMessage(message) {
@@ -135,6 +136,37 @@ export default {
           this.rooms.push(data);
         });
         console.log(this.rooms);
+        console.log("Message sent to server successfully");
+      } catch (error) {
+        console.log("Failed to send message to server", error);
+      }
+    },
+    async getAllMeassage(sender, name, profile_image) {
+      console.log(sender);
+      this.roomName = name;
+      this.roomProfileImage = profile_image;
+      const config = {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.token,
+        },
+      };
+
+      try {
+        const response = await axios.get(
+          `http://18.177.139.152/chat/api/get_chat/${sender}/`,
+          config
+        );
+        console.log(response.data);
+        response.data.forEach((item) => {
+          this.getAllMessagesDatabase.push(item);
+        });
+        this.active = true;
+        this.client.on("MessageFromPeer", (message, peerId) => {
+          console.log(peerId, "peerId");
+          console.log(`Received message from ${peerId}: ${message.text}`);
+        });
         console.log("Message sent to server successfully");
       } catch (error) {
         console.log("Failed to send message to server", error);
