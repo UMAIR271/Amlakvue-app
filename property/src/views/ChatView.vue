@@ -156,7 +156,7 @@ export default {
     return {
       client: null,
       currentUserID: "<YOUR_USER_ID>",
-      recipientUserID: "",
+      recipientUserID: "14",
       message: "",
       token: "",
       roomListData: [],
@@ -176,9 +176,9 @@ export default {
   mounted() {
     this.currentUserID = localStorage.getItem("user_id");
     this.token = localStorage.getItem("token");
-    this.recipientUserID = this.$store.state.data.listingOwnerId;
-    this.recipientUserID = this.recipientUserID.toString();
-    console.log(this.recipientUserID);
+    // this.recipientUserID = this.$store.state.data.listingOwnerId;
+    // this.recipientUserID = this.recipientUserID.toString();
+    // console.log(this.recipientUserID);
 
     // Create a new AgoraRTM instance
     const client = AgoraRTM.createInstance("21c61a1aa5d44cc09fda7e95b43561a2");
