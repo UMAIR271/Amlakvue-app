@@ -622,8 +622,8 @@ export default {
       q1_id: 6,
       q2_id: 7,
       q3_id: 8,
-      q4_id: 11,
-      q5_id: 12,
+      q4_id: 9,
+      q5_id: 10,
       ans0: "",
       ans1: "",
       ans2: "",
@@ -674,7 +674,7 @@ export default {
         if (page === 1) {
           const params = this.$store.state.data;
           const response = await axios.get(
-            "http://18.177.139.152/list/filter/",
+            "https://umair2701.pythonanywhere.com/list/filter/",
             {
               params: { ...params },
             }
@@ -684,7 +684,7 @@ export default {
         } else {
           const params = this.$store.state.data;
           const response = await axios.get(
-            "http://18.177.139.152/list/filter/",
+            "https://umair2701.pythonanywhere.com/list/filter/",
             {
               params: { ...params, page },
             }
@@ -712,7 +712,7 @@ export default {
           },
         };
         const response = await axios.post(
-          "http://18.177.139.152/favourite/listing/",
+          "https://umair2701.pythonanywhere.com/favourite/listing/",
           formData,
           config
         );
@@ -754,7 +754,7 @@ export default {
       if (user_id) {
         console.log(user_id);
         const response = await axios.get(
-          "http://18.177.139.152/list/get/" + id + "/",
+          "https://umair2701.pythonanywhere.com/list/get/" + id + "/",
           {
             params: {
               user_id,
@@ -798,7 +798,7 @@ export default {
     async getQuestion() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/questionair/basic/question/"
+          "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         console.log(response.data.Sales_Listings);
         for (let question of response.data.Sales_Listings) {
@@ -847,7 +847,7 @@ export default {
         console.log(postData);
         axios
           .post(
-            "http://18.177.139.152/questionair/interested/",
+            "https://umair2701.pythonanywhere.com/questionair/interested/",
             postData,
             config
           )
@@ -890,9 +890,12 @@ export default {
       }
       const params = data;
       this.updateData(data);
-      const response = await axios.get("http://18.177.139.152/list/filter/", {
-        params: params,
-      });
+      const response = await axios.get(
+        "https://umair2701.pythonanywhere.com/list/filter/",
+        {
+          params: params,
+        }
+      );
       this.allData = [...this.allData, ...response.data.results];
       console.log(response.data);
       window.location.reload();

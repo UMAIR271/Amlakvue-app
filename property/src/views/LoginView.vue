@@ -114,7 +114,7 @@ export default {
         password: this.password,
       };
       await axios
-        .post("http://18.177.139.152/loginapp/login/", formData)
+        .post("https://umair2701.pythonanywhere.com/loginapp/login/", formData)
         .then((response) => {
           console.log(response.data);
           const token = response.data.token.access;

@@ -61,9 +61,12 @@ export default {
         };
 
         axios
-          .get("http://18.177.139.152/questionair/getmyinterestedquestion/", {
-            headers: config.headers,
-          })
+          .get(
+            "https://umair2701.pythonanywhere.com/questionair/getmyinterestedquestion/",
+            {
+              headers: config.headers,
+            }
+          )
           .then((response) => {
             console.log(response.data);
             this.allData = [...response.data];

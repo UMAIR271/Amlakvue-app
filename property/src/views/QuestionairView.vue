@@ -239,10 +239,10 @@ export default {
     return {
       allData: [],
       q1_id: 1,
-      q2_id: 3,
-      q3_id: 4,
-      q4_id: 5,
-      q5_id: 9,
+      q2_id: 2,
+      q3_id: 3,
+      q4_id: 4,
+      q5_id: 5,
       question1: "",
       question2: "",
       question3: "",
@@ -263,7 +263,7 @@ export default {
     async getQuestion() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/questionair/basic/question/"
+          "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         const data = {};
         data.allQuestion = response.data;
@@ -272,7 +272,9 @@ export default {
           this.$store.state.data.allQuestion.Rental_Listings[0]["id"],
           "hello"
         );
+        console.log("data", data);
         this.allData = [...this.allData, ...response.data.Rental_Listings];
+        console.log(this.allData);
       } catch (error) {
         console.log(error);
       }
@@ -304,7 +306,11 @@ export default {
 
         console.log(postData);
         axios
-          .post("http://18.177.139.152/questionair/answer/", postData, config)
+          .post(
+            "https://umair2701.pythonanywhere.com/questionair/answer/",
+            postData,
+            config
+          )
           .then((response) => {
             console.log(response);
             this.showPopup = true;

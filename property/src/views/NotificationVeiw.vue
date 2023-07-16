@@ -77,9 +77,12 @@ export default {
         };
 
         axios
-          .get("http://18.177.139.152/notification/getNotification/", {
-            headers: config.headers,
-          })
+          .get(
+            "https://umair2701.pythonanywhere.com/notification/getNotification/",
+            {
+              headers: config.headers,
+            }
+          )
           .then((response) => {
             console.log(response.data);
             this.allData = [...response.data];

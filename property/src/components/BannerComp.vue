@@ -380,7 +380,7 @@ export default {
         });
       }
       // axios
-      //   .get("http://18.177.139.152/list/filter/", { params: params })
+      //   .get("https://umair2701.pythonanywhere.com/list/filter/", { params: params })
       //   .then((response) => {
       //     this.data = response.data;
       //     console.log(this.data);
@@ -397,7 +397,7 @@ export default {
           item.name.toLowerCase().includes(this.searchInput1.toLowerCase()) &&
           item.location.toLowerCase().includes(this.searchInput2.toLowerCase())
         // axios
-        //   .get("http://18.177.139.152/list/filter/", { params: params })
+        //   .get("https://umair2701.pythonanywhere.com/list/filter/", { params: params })
         //   .then((response) => {
         //     this.data = response.data;
         //     console.log(this.data);

@@ -87,7 +87,9 @@
                 alt="Los Angeles"
                 class="images_slider_view_listing"
                 style="width: 75%"
-                v-bind:src="'http://18.177.139.152/' + image.images_Url"
+                v-bind:src="
+                  'https://umair2701.pythonanywhere.com/' + image.images_Url
+                "
               />
             </div>
           </div>
@@ -105,7 +107,9 @@
       <Slide v-for="image in listingdata.list" :key="image">
         <div class="small_card" @click="slideTo(image - 1)">
           <img
-            v-bind:src="'http://18.177.139.152/' + image.images_Url"
+            v-bind:src="
+              'https://umair2701.pythonanywhere.com/' + image.images_Url
+            "
             alt="Avatar"
             style="width: 100%"
             class="small_image"
@@ -757,7 +761,7 @@ export default {
       let user_id = this.$ls.get("id");
       console.log(user_id);
       const response = await axios.get(
-        "http://18.177.139.152/list/get/" + listingid + "/",
+        "https://umair2701.pythonanywhere.com/list/get/" + listingid + "/",
         {
           params: {
             user_id,
@@ -769,21 +773,21 @@ export default {
       this.propertyType = response.data.property;
       // this.propertyimage = response.data.list;
       response.data.list.forEach((element) => {
-        let path = "http://18.177.139.152" + element.image_path;
-        let url = "http://18.177.139.152" + element.images_Url;
+        let path = "https://umair2701.pythonanywhere.com/" + element.image_path;
+        let url = "https://umair2701.pythonanywhere.com/" + element.images_Url;
         this.propertyimage.image_path = path;
         this.propertyimage.images_Url = url;
         this.propertyimage.listing = element.listing;
       });
       console.log(this.propertyimage);
 
-      // const check = "http://18.177.139.152/list/get/" + listingid ,;
+      // const check = "https://umair2701.pythonanywhere.com/list/get/" + listingid ,;
       // console.log(check);
     },
     async RentData() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/list/filter/?check_Purpose_Type=Rent"
+          "https://umair2701.pythonanywhere.com/list/filter/?check_Purpose_Type=Rent"
         );
         console.log(response.data.results);
         this.rent = response.data.results;
@@ -812,7 +816,7 @@ export default {
       if (user_id) {
         console.log(user_id);
         const response = await axios.get(
-          "http://18.177.139.152/list/get/" + id + "/",
+          "https://umair2701.pythonanywhere.com/list/get/" + id + "/",
           {
             params: {
               user_id,
@@ -853,7 +857,7 @@ export default {
     async getQuestion() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/questionair/basic/question/"
+          "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         console.log(response.data.Sales_Listings);
         for (let question of response.data.Sales_Listings) {

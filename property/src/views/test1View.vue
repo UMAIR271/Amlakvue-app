@@ -72,7 +72,7 @@ export default {
       };
       axios
         .post(
-          "http://18.177.139.152/chat/api/send_messages/",
+          "https://umair2701.pythonanywhere.com/chat/api/send_messages/",
           {
             message: message.text,
             receiver: this.recipientUserID,

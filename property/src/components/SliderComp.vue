@@ -183,7 +183,7 @@ export default {
     async RentData() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/list/filter/?check_Purpose_Type=Rent"
+          "https://umair2701.pythonanywhere.com/list/filter/?check_Purpose_Type=Rent"
         );
         console.log(response.data.results);
         this.rent = response.data.results;
@@ -203,7 +203,7 @@ export default {
       // Check if there is a next page of data
       try {
         const response = await axios.get(
-          "http://18.177.139.152/list/filter/?check_Purpose_Type=Sell"
+          "https://umair2701.pythonanywhere.com/list/filter/?check_Purpose_Type=Sell"
         );
         console.log(response.data.results);
         this.sell = response.data.results;
@@ -235,7 +235,7 @@ export default {
             },
           };
           const response = await axios.post(
-            "http://18.177.139.152/favourite/listing/",
+            "https://umair2701.pythonanywhere.com/favourite/listing/",
             formData,
             config
           );

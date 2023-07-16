@@ -128,7 +128,10 @@ export default {
           password2: this.password2,
         };
         axios
-          .post("http://18.177.139.152/loginapp/register/", formData)
+          .post(
+            "https://umair2701.pythonanywhere.com/loginapp/register/",
+            formData
+          )
           .then((response) => {
             console.log(response.data);
             this.isLoading = false;
@@ -194,7 +197,7 @@ export default {
           password2: this.password2,
         };
         axios
-          .post("http://18.177.139.152/loginapp/register/", formData)
+          .post("https://umair2701.pythonanywhere.com/loginapp/register/", formData)
           .then((response) => {
             console.log(response.data);
             this.$router.push("/login");

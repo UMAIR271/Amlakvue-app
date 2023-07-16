@@ -69,12 +69,15 @@ export default {
         };
 
         axios
-          .get("http://18.177.139.152/questionair/getinterestedrequest/", {
-            params: {
-              is_match: this.isMatch ? "True" : "False",
-            },
-            headers: config.headers,
-          })
+          .get(
+            "https://umair2701.pythonanywhere.com/questionair/getinterestedrequest/",
+            {
+              params: {
+                is_match: this.isMatch ? "True" : "False",
+              },
+              headers: config.headers,
+            }
+          )
           .then((response) => {
             console.log(response.data, "hello");
             this.allData = [...response.data];
@@ -102,7 +105,7 @@ export default {
           console.log(user_id);
           var config = {
             method: "put",
-            url: "http://18.177.139.152/questionair/isrequest/",
+            url: "https://umair2701.pythonanywhere.com/questionair/isrequest/",
             headers: {
               Authorization: "Bearer " + token,
             },

@@ -123,7 +123,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://18.177.139.152/chat/api/get_chat_inbox/",
+          "https://umair2701.pythonanywhere.com/chat/api/get_chat_inbox/",
           config
         );
         console.log(response.data);
@@ -131,7 +131,8 @@ export default {
           const data = {};
           data["roomId"] = item.chat_profile.id;
           data["roomName"] = item.username;
-          data["avatar"] = "http://18.177.139.152/" + item.profile_image;
+          data["avatar"] =
+            "https://umair2701.pythonanywhere.com/" + item.profile_image;
           console.log(data);
           this.rooms.push(data);
         });
@@ -155,7 +156,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://18.177.139.152/chat/api/get_chat/${sender}/`,
+          `https://umair2701.pythonanywhere.com/chat/api/get_chat/${sender}/`,
           config
         );
         console.log(response.data);

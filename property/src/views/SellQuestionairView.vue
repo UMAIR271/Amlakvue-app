@@ -230,8 +230,8 @@ export default {
       q1_id: 6,
       q2_id: 7,
       q3_id: 8,
-      q4_id: 11,
-      q5_id: 12,
+      q4_id: 9,
+      q5_id: 10,
       question1: "",
       question2: "",
       question3: "",
@@ -252,9 +252,10 @@ export default {
     async getQuestion() {
       try {
         const response = await axios.get(
-          "http://18.177.139.152/questionair/basic/question/"
+          "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         const data = {};
+        console.log("i am here");
         data.allQuestion = response.data;
         data.CurrentListing = this.$store.state.data.CurrentListing;
         this.updateData(data);
@@ -294,7 +295,11 @@ export default {
 
         console.log(postData);
         axios
-          .post("http://18.177.139.152/questionair/answer/", postData, config)
+          .post(
+            "https://umair2701.pythonanywhere.com/questionair/answer/",
+            postData,
+            config
+          )
           .then((response) => {
             console.log(response);
             this.Notify("Sumbit");

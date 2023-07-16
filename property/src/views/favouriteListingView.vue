@@ -534,7 +534,7 @@ export default {
             },
           };
           const response = await axios.get(
-            "http://18.177.139.152/favourite/listing/",
+            "https://umair2701.pythonanywhere.com/favourite/listing/",
             config
           );
           console.log(response.data);
@@ -551,7 +551,7 @@ export default {
             },
           };
           const response = await axios.get(
-            "http://18.177.139.152/favourite/listing/",
+            "https://umair2701.pythonanywhere.com/favourite/listing/",
             config
           );
           //   console.log(response.data);

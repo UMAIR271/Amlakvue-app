@@ -36,7 +36,8 @@
                   <div class="img_cont">
                     <img
                       v-bind:src="
-                        'http://18.177.139.152/' + roomData.profile_image
+                        'https://umair2701.pythonanywhere.com/' +
+                        roomData.profile_image
                       "
                       class="rounded-circle user_img"
                     />
@@ -59,7 +60,9 @@
             <div class="d-flex bd-highlight">
               <div class="img_cont" v-if="roomProfileImage">
                 <img
-                  v-bind:src="'http://18.177.139.152/' + roomProfileImage"
+                  v-bind:src="
+                    'https://umair2701.pythonanywhere.com/' + roomProfileImage
+                  "
                   class="rounded-circle user_img"
                 />
                 <span class="online_icon"></span>
@@ -94,7 +97,9 @@
               >
                 <div class="img_cont_msg">
                   <img
-                    v-bind:src="'http://18.177.139.152/' + roomProfileImage"
+                    v-bind:src="
+                      'https://umair2701.pythonanywhere.com/' + roomProfileImage
+                    "
                     class="rounded-circle user_img_msg"
                   />
                 </div>
@@ -237,7 +242,7 @@ export default {
       };
       axios
         .post(
-          "http://18.177.139.152/chat/api/send_messages/",
+          "https://umair2701.pythonanywhere.com/chat/api/send_messages/",
           {
             message: message.text,
             receiver: this.recipientUserID,
@@ -263,7 +268,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://18.177.139.152/chat/api/get_chat_inbox/",
+          "https://umair2701.pythonanywhere.com/chat/api/get_chat_inbox/",
           config
         );
         console.log(response.data);
@@ -302,7 +307,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://18.177.139.152/chat/api/get_chat/${sender}/`,
+          `https://umair2701.pythonanywhere.com/chat/api/get_chat/${sender}/`,
           config
         );
         console.log(response.data);

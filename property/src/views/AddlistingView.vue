@@ -891,7 +891,11 @@ export default {
         };
 
         axios
-          .post("http://18.177.139.152/list/post/", formData, config)
+          .post(
+            "https://umair2701.pythonanywhere.com/list/post/",
+            formData,
+            config
+          )
           .then((response) => {
             console.log(response.data.listing_id);
             const data = {};

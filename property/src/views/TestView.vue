@@ -10,7 +10,7 @@
         <div class="select_menu1">
           <!-- Select menus -->
         </div>
-        
+
         <div>
           <button @click="findProperties" class="button3">FIND</button>
         </div>
@@ -18,10 +18,15 @@
 
       <div class="map_views">
         <button class="button5" @click="toggleFilters">
-          <i class="fa fa-filter" style="font-size: 17px; margin-right: 5px"></i>Filters
+          <i class="fa fa-filter" style="font-size: 17px; margin-right: 5px"></i
+          >Filters
         </button>
         <button class="button5" style="margin-left: 10px">
-          <span class="fa fa-star" style="font-size: 17px; margin-right: 5px"></span>Save Search
+          <span
+            class="fa fa-star"
+            style="font-size: 17px; margin-right: 5px"
+          ></span
+          >Save Search
         </button>
       </div>
 
@@ -44,7 +49,11 @@
 
       <div style="display: flex; justify-content: space-between">
         <div class="cards-section">
-          <div class="main_div1" v-for="(value, key) in paginatedData" :key="key">
+          <div
+            class="main_div1"
+            v-for="(value, key) in paginatedData"
+            :key="key"
+          >
             <!-- Property card -->
           </div>
 
@@ -63,7 +72,9 @@
       </div>
 
       <div>
-        <a href="#"><img src="../assets/Images/last_img.png" style="width: 100%" /></a>
+        <a href="#"
+          ><img src="../assets/Images/last_img.png" style="width: 100%"
+        /></a>
       </div>
     </div>
   </div>
@@ -94,7 +105,10 @@ export default {
       if (this.allData.length === 0) {
         return [];
       }
-      return this.allData.slice(this.startIndex, this.startIndex + this.perPage);
+      return this.allData.slice(
+        this.startIndex,
+        this.startIndex + this.perPage
+      );
     },
 
     totalPages() {
@@ -113,9 +127,12 @@ export default {
 
     async getAllData() {
       try {
-        const response = await axios.get("http://18.177.139.152/list/filter/", {
-          params: this.$store.state.data,
-        });
+        const response = await axios.get(
+          "https://umair2701.pythonanywhere.com/list/filter/",
+          {
+            params: this.$store.state.data,
+          }
+        );
 
         this.allData = response.data.results;
       } catch (error) {
