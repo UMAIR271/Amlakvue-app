@@ -161,7 +161,7 @@ export default {
     return {
       client: null,
       currentUserID: "<YOUR_USER_ID>",
-      recipientUserID: "14",
+      recipientUserID: "2",
       message: "",
       token: "",
       roomListData: [],
@@ -335,8 +335,6 @@ export default {
       .catch((error) => {
         console.log("Failed to log out of Agora RTM", error);
       });
-
-    AgoraRTM.destroy();
   },
 };
 </script>

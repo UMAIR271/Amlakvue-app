@@ -256,14 +256,15 @@ export default {
         );
         const data = {};
         console.log("i am here");
-        data.allQuestion = response.data;
         data.CurrentListing = this.$store.state.data.CurrentListing;
+        // this.$store.state.data.CurrentListing= response.data['Sales Listings'];
+        // data.CurrentListing = response.data['Sales Listings'];
         this.updateData(data);
-        console.log(
-          this.$store.state.data.allQuestion.Sales_Listings[0]["id"],
-          "hello"
-        );
-        this.allData = [...this.allData, ...response.data.Sales_Listings];
+
+        this.allData = [...this.allData, ...response.data["Sales Listings"]];
+        // this.allData = this.$store.state.data.CurrentListing;
+        // this.allData = this.$store.state.data.CurrentListing;
+        console.log(this.allData);
       } catch (error) {
         console.log(error);
       }

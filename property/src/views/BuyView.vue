@@ -347,7 +347,7 @@
                       <!-- <i @click="showQuestion(value.id)" class="logo_botton"
                         >chat</i
                       > -->
-                      <router-link to="/chat" class="nav-link"
+                      <router-link :to="{ path: '/chat' }" class="nav-link"
                         >Chat</router-link
                       >
                     </label>
@@ -772,6 +772,10 @@ export default {
           "response.data.attached_question"
         );
         if (response.data.attached_question.length != 0) {
+          document.getElementById("open_form").style.display = "block";
+          document.getElementById("background").style.display = "block";
+          document.documentElement.style.overflow = "hidden";
+          document.body.scroll = "no";
           for (let obj of response.data.attached_question) {
             for (let question of this.listingQestion) {
               if (obj["question_id"] == question["id"]) {
@@ -786,11 +790,6 @@ export default {
           });
         }
         console.log(this.allquestion);
-
-        document.getElementById("open_form").style.display = "block";
-        document.getElementById("background").style.display = "block";
-        document.documentElement.style.overflow = "hidden";
-        document.body.scroll = "no";
       } else {
         this.Notify("Login");
       }
@@ -801,10 +800,13 @@ export default {
           "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         console.log(response.data.Sales_Listings);
-        for (let question of response.data.Sales_Listings) {
-          console.log(question, "love");
-        }
-        this.listingQestion.push(...response.data.Sales_Listings);
+        this.$store.state.data.CurrentListing = response.data["Sales Listings"];
+        this.listingQestion = response.data["Sales Listings"];
+        console.log("Data:", this.listingQestion);
+        // for (let question of response.data.Sales_Listings) {
+        //   console.log(question, "love");
+        // }
+        // this.listingQestion.push(...response.data.Sales_Listings);
         this.allData = [...this.allData, ...response.data.Sales_Listings];
       } catch (error) {
         console.log(error);

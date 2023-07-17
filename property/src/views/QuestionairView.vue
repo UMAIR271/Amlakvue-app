@@ -266,14 +266,14 @@ export default {
           "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
         const data = {};
-        data.allQuestion = response.data;
+        data.CurrentListing = this.$store.state.data.CurrentListing;
+        // this.$store.state.data.CurrentListing= response.data['Sales Listings'];
+        // data.CurrentListing = response.data['Sales Listings'];
         this.updateData(data);
-        console.log(
-          this.$store.state.data.allQuestion.Rental_Listings[0]["id"],
-          "hello"
-        );
-        console.log("data", data);
-        this.allData = [...this.allData, ...response.data.Rental_Listings];
+
+        this.allData = [...this.allData, ...response.data["Rental Listings"]];
+        // this.allData = this.$store.state.data.CurrentListing;
+        // this.allData = this.$store.state.data.CurrentListing;
         console.log(this.allData);
       } catch (error) {
         console.log(error);

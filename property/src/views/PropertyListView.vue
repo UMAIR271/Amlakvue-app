@@ -500,7 +500,7 @@
                       <!-- <i @click="showQuestion(value.id)" class="logo_botton"
                         >chat</i
                       > -->
-                      <router-link to="/chat" class="nav-link"
+                      <router-link :to="{ path: '/chat' }" class="nav-link"
                         >Chat</router-link
                       >
                     </label>
@@ -956,11 +956,16 @@ export default {
         this.updateData(data);
         this.listingid = response.data.id;
         console.log(response.data.id, "getlisting");
-        console.log(
-          response.data.attached_question,
-          "response.data.attached_question"
-        );
+        // console.log(
+        //   response.data.attached_question,
+        //   "response.data.attached_question"
+        // );
+        // debugger
         if (response.data.attached_question.length != 0) {
+          document.getElementById("open_form").style.display = "block";
+        document.getElementById("background").style.display = "block";
+        document.documentElement.style.overflow = "hidden";
+        document.body.scroll = "no";
           for (let obj of response.data.attached_question) {
             for (let question of this.listingQestion) {
               if (obj["question_id"] == question["id"]) {
@@ -976,10 +981,7 @@ export default {
         }
         console.log(this.allquestion);
 
-        document.getElementById("open_form").style.display = "block";
-        document.getElementById("background").style.display = "block";
-        document.documentElement.style.overflow = "hidden";
-        document.body.scroll = "no";
+       
       } else {
         this.Notify("Login");
       }
@@ -989,11 +991,15 @@ export default {
         const response = await axios.get(
           "https://umair2701.pythonanywhere.com/questionair/basic/question/"
         );
-        console.log(response.data.Sales_Listings);
-        for (let question of response.data.Sales_Listings) {
-          console.log(question, "love");
-        }
-        this.listingQestion.push(...response.data.Sales_Listings);
+        // for (let question of response.data.Sales_Listings) {
+        //   console.log(question, "love");
+        // }
+        this.$store.state.data.CurrentListing = response.data['Rental Listings'];
+        this.listingQestion = response.data['Rental Listings'];
+        console.log("Data:",this.listingQestion);
+
+
+        // this.listingQestion.push(...response.data.Sales_Listings);
         this.allData = [...this.allData, ...response.data.Sales_Listings];
       } catch (error) {
         console.log(error);
@@ -1098,6 +1104,14 @@ export default {
       this.currentPage = pageNumber;
       this.startIndex = (pageNumber - 1) * this.perPage;
     },
+
+    setPropertyId(id){
+      debugger
+      const data = {};
+      data.propertyId = id;
+      console.log("this.propertyId", this.propertyId);
+      this.updateData(data);
+    }
   },
 };
 </script>
