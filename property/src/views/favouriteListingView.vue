@@ -558,6 +558,7 @@ export default {
           return response;
         }
       } catch (error) {
+        this.isLoading = false;
         console.error(error);
       }
     },
@@ -567,14 +568,20 @@ export default {
       let next = response.data.next;
       console.log(next);
       this.allData = [...this.allData, ...response.data];
-      while (next) {
-        console.log("hello");
-        this.currentPage++;
-        response = await this.getDataFromAPI(this.currentPage);
-        this.allData = [...this.allData, ...response.data.results];
-        console.log(this.allData);
+      if (this.allData.length != 0) {
+        console.log("hellllllllllloooooooooo");
+        while (next) {
+          console.log("hello");
+          this.currentPage++;
+          response = await this.getDataFromAPI(this.currentPage);
+          this.allData = [...this.allData, ...response.data.results];
+          console.log(this.allData);
+        }
+        this.isLoading = false;
+      } else {
+        console.log("love");
+        this.isLoading = false;
       }
-      this.isLoading = false;
     },
     showQuestion() {
       print("hello");

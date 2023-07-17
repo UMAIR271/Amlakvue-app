@@ -56,7 +56,9 @@ export default {
     };
   },
   mounted() {
+    // this.toggleComponent("received");
     this.sentComponent = true;
+    this.toggleComponent("received");
   },
   methods: {
     toggleComponent(data) {

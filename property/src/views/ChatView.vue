@@ -160,8 +160,8 @@ export default {
   data() {
     return {
       client: null,
-      currentUserID: "<YOUR_USER_ID>",
-      recipientUserID: "2",
+      currentUserID: "",
+      recipientUserID: "",
       message: "",
       token: "",
       roomListData: [],
@@ -181,10 +181,10 @@ export default {
   mounted() {
     this.currentUserID = localStorage.getItem("user_id");
     this.token = localStorage.getItem("token");
-    // this.recipientUserID = this.$store.state.data.listingOwnerId;
-    // this.recipientUserID = this.recipientUserID.toString();
-    // console.log(this.recipientUserID);
-
+    this.recipientUserID = this.$store?.state?.data?.userId;
+    console.log(typeof this.recipientUserID);
+    console.log("recipientUserID", this.recipientUserID);
+    console.log("currentUserID", this.currentUserID);
     // Create a new AgoraRTM instance
     const client = AgoraRTM.createInstance("21c61a1aa5d44cc09fda7e95b43561a2");
     client
@@ -219,7 +219,6 @@ export default {
           console.log("Message sent successfully");
           console.log(message.text);
           this.sendMessageList.push(message.text);
-          this.message = "";
           this.sendToServer(message);
           this.getAllMeassage(
             this.dataobj.sender_id,
@@ -271,11 +270,10 @@ export default {
           "https://umair2701.pythonanywhere.com/chat/api/get_chat_inbox/",
           config
         );
-        console.log(response.data);
+        console.log("get_chat_inbox", response.data);
         response.data.forEach((item) => {
           this.roomListData.push(item);
           this.roomProfileImage = item.profile_image;
-          console.log(this.roomProfileImage);
         });
         this.getAllMeassage(
           this.roomListData[0]?.chat_profile?.sender_id,
@@ -289,13 +287,13 @@ export default {
     },
     async getAllMeassage(sender, name, profile_image) {
       this.profile_image = "";
-      console.log("sebser", sender);
+      console.log("getAllMeassage", String(sender));
       // debugger;
       this.dataobj.sender_id = sender;
+      this.recipientUserID = String(sender);
       this.dataobj.username = name;
       this.dataobj.profile_image = profile_image;
-      console.log(this.dataobj);
-      this.roomName = name;
+      this.roomName = this.$store?.state?.data?.userName;
       this.roomProfileImage = profile_image;
       const config = {
         headers: {

@@ -508,7 +508,11 @@
                   <div v-else>
                     <label class="add-fav">
                       <input class="input1" type="checkbox" />
-                      <i @click="showQuestion(value.id)" class="logo_botton"
+                      <i
+                        @click="
+                          showQuestion(value.id, value.user_id, value.username)
+                        "
+                        class="logo_botton"
                         >Interested</i
                       >
                     </label>
@@ -936,7 +940,7 @@ export default {
         });
       }
     },
-    async showQuestion(id) {
+    async showQuestion(id, userId, userName) {
       console.log("questions");
       console.log("this.id", id);
       let user_id = localStorage.getItem("user_id");
@@ -953,6 +957,10 @@ export default {
         this.ownerid = response.data.user_id;
         const data = {};
         data.listingOwnerId = this.ownerid;
+        data.userId = String(userId);
+        console.log(typeof userId);
+        data.userName = String(userName);
+        console.log(data);
         this.updateData(data);
         this.listingid = response.data.id;
         console.log(response.data.id, "getlisting");
@@ -963,9 +971,9 @@ export default {
         // debugger
         if (response.data.attached_question.length != 0) {
           document.getElementById("open_form").style.display = "block";
-        document.getElementById("background").style.display = "block";
-        document.documentElement.style.overflow = "hidden";
-        document.body.scroll = "no";
+          document.getElementById("background").style.display = "block";
+          document.documentElement.style.overflow = "hidden";
+          document.body.scroll = "no";
           for (let obj of response.data.attached_question) {
             for (let question of this.listingQestion) {
               if (obj["question_id"] == question["id"]) {
@@ -980,8 +988,6 @@ export default {
           });
         }
         console.log(this.allquestion);
-
-       
       } else {
         this.Notify("Login");
       }
@@ -994,10 +1000,10 @@ export default {
         // for (let question of response.data.Sales_Listings) {
         //   console.log(question, "love");
         // }
-        this.$store.state.data.CurrentListing = response.data['Rental Listings'];
-        this.listingQestion = response.data['Rental Listings'];
-        console.log("Data:",this.listingQestion);
-
+        this.$store.state.data.CurrentListing =
+          response.data["Rental Listings"];
+        this.listingQestion = response.data["Rental Listings"];
+        console.log("Data:", this.listingQestion);
 
         // this.listingQestion.push(...response.data.Sales_Listings);
         this.allData = [...this.allData, ...response.data.Sales_Listings];
@@ -1105,13 +1111,13 @@ export default {
       this.startIndex = (pageNumber - 1) * this.perPage;
     },
 
-    setPropertyId(id){
-      debugger
+    setPropertyId(id) {
+      debugger;
       const data = {};
       data.propertyId = id;
       console.log("this.propertyId", this.propertyId);
       this.updateData(data);
-    }
+    },
   },
 };
 </script>
